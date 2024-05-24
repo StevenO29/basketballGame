@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9535EA7A2C0048D100B38133 /* mainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9535EA792C0048D100B38133 /* mainMenu.swift */; };
-		9535EA7F2C00494300B38133 /* RichuMastRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9535EA7E2C00494300B38133 /* RichuMastRegular.ttf */; };
-		9535EA822C0049AD00B38133 /* SpongeboyMeBob.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9535EA812C0049AD00B38133 /* SpongeboyMeBob.ttf */; };
+		95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */; };
+		95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
 		B0EFF1922BF6E62D00DF3902 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF1912BF6E62D00DF3902 /* ContentView.swift */; };
 		B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0EFF1932BF6E62E00DF3902 /* Assets.xcassets */; };
@@ -39,8 +39,8 @@
 /* Begin PBXFileReference section */
 		9535EA792C0048D100B38133 /* mainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMenu.swift; sourceTree = "<group>"; };
 		9535EA7B2C00491000B38133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		9535EA7E2C00494300B38133 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = RichuMastRegular.ttf; path = "../../Downloads/richu_mast 2/RichuMastRegular.ttf"; sourceTree = "<group>"; };
-		9535EA812C0049AD00B38133 /* SpongeboyMeBob.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SpongeboyMeBob.ttf; path = ../../Downloads/SpongeboyMeBob.ttf; sourceTree = "<group>"; };
+		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
+		95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpongeboyMeBob.ttf; sourceTree = SOURCE_ROOT; };
 		B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basketballGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0EFF1912BF6E62D00DF3902 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,8 +81,8 @@
 		B0EFF1832BF6E62D00DF3902 = {
 			isa = PBXGroup;
 			children = (
-				9535EA812C0049AD00B38133 /* SpongeboyMeBob.ttf */,
-				9535EA7E2C00494300B38133 /* RichuMastRegular.ttf */,
+				95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */,
+				95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */,
 				B0EFF18E2BF6E62D00DF3902 /* basketballGame */,
 				B0EFF19F2BF6E62E00DF3902 /* basketballGameTests */,
 				B0EFF1A92BF6E62E00DF3902 /* basketballGameUITests */,
@@ -242,9 +242,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */,
+				95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */,
 				B0EFF1972BF6E62E00DF3902 /* Preview Assets.xcassets in Resources */,
-				9535EA822C0049AD00B38133 /* SpongeboyMeBob.ttf in Resources */,
-				9535EA7F2C00494300B38133 /* RichuMastRegular.ttf in Resources */,
 				B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
