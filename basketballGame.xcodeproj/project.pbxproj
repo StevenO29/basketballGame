@@ -10,6 +10,8 @@
 		9535EA7A2C0048D100B38133 /* mainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9535EA792C0048D100B38133 /* mainMenu.swift */; };
 		95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */; };
 		95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */; };
+		B086CB9D2C036FDD004E278B /* ring4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B086CB9C2C036FDD004E278B /* ring4.usdz */; };
+		B086CBA12C03711D004E278B /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B086CBA02C03711D004E278B /* FocusEntity */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
 		B0EFF1922BF6E62D00DF3902 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF1912BF6E62D00DF3902 /* ContentView.swift */; };
 		B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0EFF1932BF6E62E00DF3902 /* Assets.xcassets */; };
@@ -41,6 +43,7 @@
 		9535EA7B2C00491000B38133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
 		95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpongeboyMeBob.ttf; sourceTree = SOURCE_ROOT; };
+		B086CB9C2C036FDD004E278B /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = ring4.usdz; path = "../Basketball Assets/ring4.usdz"; sourceTree = "<group>"; };
 		B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basketballGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0EFF1912BF6E62D00DF3902 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B086CBA12C03711D004E278B /* FocusEntity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +85,7 @@
 		B0EFF1832BF6E62D00DF3902 = {
 			isa = PBXGroup;
 			children = (
+				B086CB9C2C036FDD004E278B /* ring4.usdz */,
 				95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */,
 				95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */,
 				B0EFF18E2BF6E62D00DF3902 /* basketballGame */,
@@ -154,6 +159,9 @@
 			dependencies = (
 			);
 			name = basketballGame;
+			packageProductDependencies = (
+				B086CBA02C03711D004E278B /* FocusEntity */,
+			);
 			productName = basketballGame;
 			productReference = B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */;
 			productType = "com.apple.product-type.application";
@@ -226,6 +234,9 @@
 				Base,
 			);
 			mainGroup = B0EFF1832BF6E62D00DF3902;
+			packageReferences = (
+				B086CB9F2C03711D004E278B /* XCRemoteSwiftPackageReference "FocusEntity" */,
+			);
 			productRefGroup = B0EFF18D2BF6E62D00DF3902 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -246,6 +257,7 @@
 				95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */,
 				B0EFF1972BF6E62E00DF3902 /* Preview Assets.xcassets in Resources */,
 				B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */,
+				B086CB9D2C036FDD004E278B /* ring4.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,6 +622,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B086CB9F2C03711D004E278B /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maxxfrazer/FocusEntity";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B086CBA02C03711D004E278B /* FocusEntity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B086CB9F2C03711D004E278B /* XCRemoteSwiftPackageReference "FocusEntity" */;
+			productName = FocusEntity;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B0EFF1842BF6E62D00DF3902 /* Project object */;
 }
