@@ -10,9 +10,7 @@
 		9535EA7A2C0048D100B38133 /* mainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9535EA792C0048D100B38133 /* mainMenu.swift */; };
 		95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */; };
 		95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */; };
-		B086CB9D2C036FDD004E278B /* ring4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B086CB9C2C036FDD004E278B /* ring4.usdz */; };
 		B086CBA12C03711D004E278B /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B086CBA02C03711D004E278B /* FocusEntity */; };
-		B0EFEC6D2C0423D100B27AA0 /* Basketball.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC6C2C0423D100B27AA0 /* Basketball.usdz */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
 		B0EFF1922BF6E62D00DF3902 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF1912BF6E62D00DF3902 /* ContentView.swift */; };
 		B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0EFF1932BF6E62E00DF3902 /* Assets.xcassets */; };
@@ -44,9 +42,7 @@
 		9535EA7B2C00491000B38133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
 		95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpongeboyMeBob.ttf; sourceTree = SOURCE_ROOT; };
-		B086CB9C2C036FDD004E278B /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = ring4.usdz; path = "../Basketball Assets/ring4.usdz"; sourceTree = "<group>"; };
 		B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = basketballGame.entitlements; sourceTree = "<group>"; };
-		B0EFEC6C2C0423D100B27AA0 /* Basketball.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Basketball.usdz; sourceTree = "<group>"; };
 		B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basketballGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0EFF1912BF6E62D00DF3902 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -88,8 +84,6 @@
 		B0EFF1832BF6E62D00DF3902 = {
 			isa = PBXGroup;
 			children = (
-				B0EFEC6C2C0423D100B27AA0 /* Basketball.usdz */,
-				B086CB9C2C036FDD004E278B /* ring4.usdz */,
 				95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */,
 				95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */,
 				B0EFF18E2BF6E62D00DF3902 /* basketballGame */,
@@ -260,10 +254,8 @@
 			files = (
 				95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */,
 				95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */,
-				B0EFEC6D2C0423D100B27AA0 /* Basketball.usdz in Resources */,
 				B0EFF1972BF6E62E00DF3902 /* Preview Assets.xcassets in Resources */,
 				B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */,
-				B086CB9D2C036FDD004E278B /* ring4.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
