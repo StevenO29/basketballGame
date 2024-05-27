@@ -44,6 +44,7 @@
 		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
 		95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpongeboyMeBob.ttf; sourceTree = SOURCE_ROOT; };
 		B086CB9C2C036FDD004E278B /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = ring4.usdz; path = "../Basketball Assets/ring4.usdz"; sourceTree = "<group>"; };
+		B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = basketballGame.entitlements; sourceTree = "<group>"; };
 		B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basketballGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0EFF1912BF6E62D00DF3902 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -108,6 +109,7 @@
 		B0EFF18E2BF6E62D00DF3902 /* basketballGame */ = {
 			isa = PBXGroup;
 			children = (
+				B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */,
 				9535EA7B2C00491000B38133 /* Info.plist */,
 				B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */,
 				B0EFF1912BF6E62D00DF3902 /* ContentView.swift */,
@@ -445,6 +447,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = basketballGame/basketballGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"basketballGame/Preview Content\"";
@@ -478,6 +481,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = basketballGame/basketballGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"basketballGame/Preview Content\"";
