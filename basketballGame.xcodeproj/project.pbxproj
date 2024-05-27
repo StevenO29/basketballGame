@@ -11,6 +11,8 @@
 		95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */; };
 		95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */; };
 		B086CBA12C03711D004E278B /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B086CBA02C03711D004E278B /* FocusEntity */; };
+		B0EFEC702C04250F00B27AA0 /* Basketball.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC6F2C04250F00B27AA0 /* Basketball.usdz */; };
+		B0EFEC722C04252900B27AA0 /* ring4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC712C04252900B27AA0 /* ring4.usdz */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
 		B0EFF1922BF6E62D00DF3902 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF1912BF6E62D00DF3902 /* ContentView.swift */; };
 		B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0EFF1932BF6E62E00DF3902 /* Assets.xcassets */; };
@@ -43,6 +45,8 @@
 		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
 		95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpongeboyMeBob.ttf; sourceTree = SOURCE_ROOT; };
 		B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = basketballGame.entitlements; sourceTree = "<group>"; };
+		B0EFEC6F2C04250F00B27AA0 /* Basketball.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Basketball.usdz; sourceTree = "<group>"; };
+		B0EFEC712C04252900B27AA0 /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = ring4.usdz; sourceTree = "<group>"; };
 		B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basketballGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0EFF1912BF6E62D00DF3902 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,9 +85,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B0EFEC6E2C0424F600B27AA0 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				B0EFEC712C04252900B27AA0 /* ring4.usdz */,
+				B0EFEC6F2C04250F00B27AA0 /* Basketball.usdz */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		B0EFF1832BF6E62D00DF3902 = {
 			isa = PBXGroup;
 			children = (
+				B0EFEC6E2C0424F600B27AA0 /* Assets */,
 				95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */,
 				95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */,
 				B0EFF18E2BF6E62D00DF3902 /* basketballGame */,
@@ -253,6 +267,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */,
+				B0EFEC702C04250F00B27AA0 /* Basketball.usdz in Resources */,
+				B0EFEC722C04252900B27AA0 /* ring4.usdz in Resources */,
 				95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */,
 				B0EFF1972BF6E62E00DF3902 /* Preview Assets.xcassets in Resources */,
 				B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */,
