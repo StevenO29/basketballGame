@@ -10,7 +10,7 @@
 		9535EA7A2C0048D100B38133 /* mainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9535EA792C0048D100B38133 /* mainMenu.swift */; };
 		95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */; };
 		95AC19212C00535C0080D894 /* SpongeboyMeBob.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191F2C00535C0080D894 /* SpongeboyMeBob.ttf */; };
-		B086CBA12C03711D004E278B /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B086CBA02C03711D004E278B /* FocusEntity */; };
+		B05CD4F52C0561BB004079CD /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B05CD4F42C0561BB004079CD /* FocusEntity */; };
 		B0EFEC702C04250F00B27AA0 /* Basketball.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC6F2C04250F00B27AA0 /* Basketball.usdz */; };
 		B0EFEC722C04252900B27AA0 /* ring4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC712C04252900B27AA0 /* ring4.usdz */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
@@ -64,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B086CBA12C03711D004E278B /* FocusEntity in Frameworks */,
+				B05CD4F52C0561BB004079CD /* FocusEntity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,7 +173,7 @@
 			);
 			name = basketballGame;
 			packageProductDependencies = (
-				B086CBA02C03711D004E278B /* FocusEntity */,
+				B05CD4F42C0561BB004079CD /* FocusEntity */,
 			);
 			productName = basketballGame;
 			productReference = B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */;
@@ -248,7 +248,7 @@
 			);
 			mainGroup = B0EFF1832BF6E62D00DF3902;
 			packageReferences = (
-				B086CB9F2C03711D004E278B /* XCRemoteSwiftPackageReference "FocusEntity" */,
+				B05CD4F32C0561BB004079CD /* XCRemoteSwiftPackageReference "FocusEntity" */,
 			);
 			productRefGroup = B0EFF18D2BF6E62D00DF3902 /* Products */;
 			projectDirPath = "";
@@ -640,7 +640,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B086CB9F2C03711D004E278B /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
+		B05CD4F32C0561BB004079CD /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maxxfrazer/FocusEntity";
 			requirement = {
@@ -651,9 +651,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B086CBA02C03711D004E278B /* FocusEntity */ = {
+		B05CD4F42C0561BB004079CD /* FocusEntity */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B086CB9F2C03711D004E278B /* XCRemoteSwiftPackageReference "FocusEntity" */;
+			package = B05CD4F32C0561BB004079CD /* XCRemoteSwiftPackageReference "FocusEntity" */;
 			productName = FocusEntity;
 		};
 /* End XCSwiftPackageProductDependency section */
