@@ -45,21 +45,16 @@ struct mainMenu: View {
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol kedua: Multi Player
-                        Button(action: {
-                            // Aksi untuk tombol Multi Player
-                        }) {
-                            Text("MultiPlayer")
-                            //                            .font(.title)
-                            //                            .fontWeight(.bold)
-                                .foregroundColor(.myCustomColor1)
-                                .padding()
-                                .frame(maxWidth: 290)
-                                .background(Color.myCustomColor2)
-                                .cornerRadius(10)
-                                .padding(.horizontal)
-                                .font(.custom("RichuMastRegular", size: 30))
+                        NavigationLink(destination: ContentView()) {
+                            Text("Multiplayer")
                         }
-                        
+                        .foregroundColor(.myCustomColor1)
+                        .padding()
+                        .frame(maxWidth: 290)
+                        .background(Color.myCustomColor2)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        .font(.custom("RichuMastRegular", size: 30))
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol ketiga: Leader Board
