@@ -12,8 +12,6 @@ import FocusEntity
 import Combine
 
 struct ContentView : View {
-    @State private var buttonEnabled = true
-    
     var body: some View {
         ZStack {
             ARViewContainer().edgesIgnoringSafeArea(.all)
@@ -24,13 +22,19 @@ struct ContentView : View {
                 Spacer()
                 Spacer()
                 
-                Button(buttonEnabled ? "Place" : "Start") {
-                    ActionManager.shared.actionStream.send(.place3DModel)
-                    buttonEnabled.toggle()
+                HStack {
+                    Button("Reset", role: .destructive) {
+                        ActionManager.shared.actionStream.send(.remove3DModel)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                    
+                    Button("Place") {
+                        ActionManager.shared.actionStream.send(.place3DModel)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
-                .disabled(!buttonEnabled)
                 
                 Spacer()
             }
@@ -53,6 +57,7 @@ class CustomARView: ARView {
     
     var focusEntity: FocusEntity?
     var cancellables: Set<AnyCancellable> = []
+    var anchorEntity = AnchorEntity()
     
     init() {
         super.init(frame: .zero)
@@ -74,36 +79,43 @@ class CustomARView: ARView {
         
         self.session.run(config)
     }
-
     
     func place3DModel() {
         guard let focusEntity = self.focusEntity else { return }
-
+        
         let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
-        let anchorEntity = AnchorEntity(world: focusEntity.position)
+        anchorEntity = AnchorEntity(world: focusEntity.position)
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
     }
-
-    
     
     func subscribeToActionStream() {
         ActionManager.shared
             .actionStream
             .sink { [weak self] action in
-                
+                    
                 switch action {
                     
                 case .place3DModel:
                     self?.place3DModel()
                     
                 case .remove3DModel:
-                    print("Removeing 3D model: has not been implemented")
+                    print("Removing 3D model")
+                    guard let scene = self?.scene else { return }
+                    
+                    // Find all anchors with the name "ring4"
+                    let anchorsToRemove = scene.anchors.filter { anchor in
+                        anchor.children.contains { $0.name == "ring4" }
+                    }
+                    
+                    // Remove found anchors
+                    self!.anchorEntity.removeFromParent()
                 }
             }
             .store(in: &cancellables)
     }
+
     
     @MainActor required dynamic init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
