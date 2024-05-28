@@ -12,6 +12,8 @@ import FocusEntity
 import Combine
 
 struct ContentView : View {
+    @State private var isModelPlaced: Bool = false
+    
     var body: some View {
         ZStack {
             ARViewContainer().edgesIgnoringSafeArea(.all)
@@ -25,12 +27,15 @@ struct ContentView : View {
                 HStack {
                     Button("Reset", role: .destructive) {
                         ActionManager.shared.actionStream.send(.remove3DModel)
+                        isModelPlaced = false
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.large)
+                    .disabled(!isModelPlaced) // Disable the button if the model is not placed
                     
-                    Button("Place") {
+                    Button(isModelPlaced ? "Start" : "Place") {
                         ActionManager.shared.actionStream.send(.place3DModel)
+                        isModelPlaced = true
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.large)
@@ -85,6 +90,10 @@ class CustomARView: ARView {
         
         let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
+        
+        let ring4 = ModelEntity(mesh: .generateSphere(radius: 0.1))
+        anchorEntity.addChild(ring4)
+        
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
@@ -105,7 +114,7 @@ class CustomARView: ARView {
                     guard let scene = self?.scene else { return }
                     
                     // Find all anchors with the name "ring4"
-                    let anchorsToRemove = scene.anchors.filter { anchor in
+                    _ = scene.anchors.filter { anchor in
                         anchor.children.contains { $0.name == "ring4" }
                     }
                     
