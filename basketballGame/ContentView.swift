@@ -12,6 +12,8 @@ import FocusEntity
 import Combine
 
 struct ContentView : View {
+    @State private var buttonEnabled = true
+    
     var body: some View {
         ZStack {
             ARViewContainer().edgesIgnoringSafeArea(.all)
@@ -22,11 +24,13 @@ struct ContentView : View {
                 Spacer()
                 Spacer()
                 
-                Button("Place") {
+                Button(buttonEnabled ? "Place" : "Start") {
                     ActionManager.shared.actionStream.send(.place3DModel)
+                    buttonEnabled.toggle()
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.large)
+                .disabled(!buttonEnabled)
                 
                 Spacer()
             }
