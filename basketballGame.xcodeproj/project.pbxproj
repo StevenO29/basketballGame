@@ -471,7 +471,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"basketballGame/Preview Content\"";
-				DEVELOPMENT_TEAM = 4WSCC5Q69A;
+				DEVELOPMENT_TEAM = 5KDFP64V92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = basketballGame/Info.plist;
@@ -488,7 +488,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
+				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame.Edvard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -505,7 +505,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"basketballGame/Preview Content\"";
-				DEVELOPMENT_TEAM = 4WSCC5Q69A;
+				DEVELOPMENT_TEAM = 5KDFP64V92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = basketballGame/Info.plist;
@@ -522,7 +522,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
+				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame.Edvard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
