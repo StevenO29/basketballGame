@@ -78,8 +78,10 @@ class CustomARView: ARView {
         let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
         let anchorEntity = AnchorEntity(world: focusEntity.position)
         anchorEntity.addChild(modelEntity)
+        modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
     }
+
     
     
     func subscribeToActionStream() {
