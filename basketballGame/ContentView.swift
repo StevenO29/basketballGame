@@ -13,12 +13,25 @@ import Combine
 
 struct ContentView : View {
     @State private var isModelPlaced: Bool = false
+    @State var score: Int = 0
+    @State var timer: Int = 60
     
     var body: some View {
         ZStack {
             ARViewContainer().edgesIgnoringSafeArea(.all)
             VStack {
-                Spacer()
+                HStack {
+                    Spacer()
+                    Text("Score: \(score)")
+                    
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    
+                    Text("Time: \(timer)")
+                    Spacer()
+                }
+                
                 Spacer()
                 Spacer()
                 Spacer()
@@ -29,7 +42,7 @@ struct ContentView : View {
                         ActionManager.shared.actionStream.send(.remove3DModel)
                         isModelPlaced = false
                     }
-                    .buttonStyle(.bordered)
+                    .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .disabled(!isModelPlaced) // Disable the button if the model is not placed
                     
@@ -37,7 +50,7 @@ struct ContentView : View {
                         ActionManager.shared.actionStream.send(.place3DModel)
                         isModelPlaced = true
                     }
-                    .buttonStyle(.bordered)
+                    .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                 }
                 
@@ -59,7 +72,6 @@ struct ARViewContainer: UIViewRepresentable {
 
 
 class CustomARView: ARView {
-    
     var focusEntity: FocusEntity?
     var cancellables: Set<AnyCancellable> = []
     var anchorEntity = AnchorEntity()

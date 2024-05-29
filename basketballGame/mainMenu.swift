@@ -30,6 +30,7 @@ struct mainMenu: View {
                         .font(.custom("SpongeboyMeBob", size: 55))
                         .foregroundColor(.white)
                     Spacer().frame(height: 280) // Menambahkan spacer untuk memposisikan konten lainnya di bawah logo
+                    
                     // Tombol pertama: Solo
                     VStack {
                         NavigationLink(destination: ContentView()) {
@@ -62,8 +63,6 @@ struct mainMenu: View {
                             // Aksi untuk tombol Leader Board
                         }) {
                             Text("LeaderBoard")
-                            //                            .font(.title)
-                            //                            .fontWeight(.bold)
                                 .foregroundColor(.myCustomColor1)
                                 .padding()
                                 .frame(maxWidth: 290)
