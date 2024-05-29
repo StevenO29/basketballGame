@@ -15,6 +15,7 @@ struct ContentView : View {
     @State private var isModelPlaced: Bool = false
     @State var score: Int = 0
     @State var timer: Int = 60
+    @State var isStart = false
     
     var body: some View {
         ZStack {
@@ -23,12 +24,14 @@ struct ContentView : View {
                 HStack {
                     Spacer()
                     Text("Score: \(score)")
+                        .font(.custom("RichuMastRegular", size: 25))
                     
                     Spacer()
                     Spacer()
                     Spacer()
                     
                     Text("Time: \(timer)")
+                        .font(.custom("RichuMastRegular", size: 25))
                     Spacer()
                 }
                 
@@ -37,22 +40,35 @@ struct ContentView : View {
                 Spacer()
                 Spacer()
                 
-                HStack {
-                    Button("Reset", role: .destructive) {
-                        ActionManager.shared.actionStream.send(.remove3DModel)
-                        isModelPlaced = false
+                if isStart == false{
+                    HStack {
+                        Button("Reset", role: .destructive) {
+                            ActionManager.shared.actionStream.send(.remove3DModel)
+                            isModelPlaced = false
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .disabled(!isModelPlaced) // Disable the button if the model is not placed
+                        
+                        Button(isModelPlaced ? "Start" : "Place") {
+                            if isModelPlaced == false {
+                                ActionManager.shared.actionStream.send(.place3DModel)
+                            }
+                        
+                            if isModelPlaced == true {
+                                isStart = true
+                            }
+                            isModelPlaced = true
+                            
+                            
+                        }
+                        
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .disabled(!isModelPlaced) // Disable the button if the model is not placed
-                    
-                    Button(isModelPlaced ? "Start" : "Place") {
-                        ActionManager.shared.actionStream.send(.place3DModel)
-                        isModelPlaced = true
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
                 }
+                
+               
                 
                 Spacer()
             }
