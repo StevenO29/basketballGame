@@ -94,6 +94,9 @@ class CustomARView: ARView {
             config.sceneReconstruction = .meshWithClassification
         }
         
+        self.environment.sceneUnderstanding.options.insert(.occlusion)
+
+        
         self.session.run(config)
     }
     
