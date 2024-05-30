@@ -54,21 +54,15 @@ struct ContentView : View {
                             if isModelPlaced == false {
                                 ActionManager.shared.actionStream.send(.place3DModel)
                             }
-                        
                             if isModelPlaced == true {
                                 isStart = true
                             }
                             isModelPlaced = true
-                            
-                            
                         }
-                        
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
                 }
-                
-               
                 
                 Spacer()
             }
@@ -121,9 +115,6 @@ class CustomARView: ARView {
         
         let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
-        
-        let ring4 = ModelEntity(mesh: .generateSphere(radius: 0.1))
-        anchorEntity.addChild(ring4)
         
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
