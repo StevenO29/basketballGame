@@ -15,13 +15,13 @@ struct mainMenu: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Image("Wallpaper")
+                Image("Wallpaper3")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .edgesIgnoringSafeArea(.all)
                 
-                Color.black.opacity(0.7)
+                Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
@@ -36,10 +36,10 @@ struct mainMenu: View {
                         NavigationLink(destination: ContentView()) {
                             Text("Solo Player")
                         }
-                        .foregroundColor(.myCustomColor1)
+                        .foregroundColor(.whiteColor)
                         .padding()
                         .frame(maxWidth: 290)
-                        .background(Color.myCustomColor2)
+                        .background(Color.redColor)
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .font(.custom("RichuMastRegular", size: 30))
@@ -49,10 +49,10 @@ struct mainMenu: View {
                         NavigationLink(destination: ContentView()) {
                             Text("Multiplayer")
                         }
-                        .foregroundColor(.myCustomColor1)
+                        .foregroundColor(.whiteColor)
                         .padding()
                         .frame(maxWidth: 290)
-                        .background(Color.myCustomColor2)
+                        .background(Color.redColor)
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .font(.custom("RichuMastRegular", size: 30))
@@ -63,10 +63,10 @@ struct mainMenu: View {
                             // Aksi untuk tombol Leader Board
                         }) {
                             Text("LeaderBoard")
-                                .foregroundColor(.myCustomColor1)
+                                .foregroundColor(.whiteColor)
                                 .padding()
                                 .frame(maxWidth: 290)
-                                .background(Color.myCustomColor2)
+                                .background(Color.redColor)
                                 .cornerRadius(10)
                                 .padding(.horizontal)
                                 .font(.custom("RichuMastRegular", size: 30))
@@ -98,6 +98,10 @@ struct mainMenu: View {
 extension Color {
     static let myCustomColor1 = Color(red: 0.10, green: 0.14, blue: 0.25)
     static let myCustomColor2 = Color(red: 0.97, green: 0.87, blue: 0.70)
+    static let blackColor = Color(red: 0.0, green: 0.0, blue: 0.0) // #000000
+    static let whiteColor = Color(red: 0.95, green: 0.95, blue: 0.94) // #f2f2f0
+    static let redColor = Color(red: 0.72, green: 0.04, blue: 0.11) // #b7091d
+    static let orangeColor = Color(red: 0.90, green: 0.24, blue: 0.0) // #e63e00
 }
 
 #Preview {

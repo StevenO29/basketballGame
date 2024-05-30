@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "pikaso_texttoimage_Comic-style-create-a-background-for-the-basketball.jpeg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
