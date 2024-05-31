@@ -13,7 +13,7 @@ struct mainMenu: View {
     var viewController: UIViewController?
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Image("Wallpaper3")
                     .resizable()
@@ -46,7 +46,7 @@ struct mainMenu: View {
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol kedua: Multi Player
-                        NavigationLink(destination: ContentView()) {
+                        NavigationLink(destination: multiplayerView()) {
                             Text("Multiplayer")
                         }
                         .foregroundColor(.whiteColor)
