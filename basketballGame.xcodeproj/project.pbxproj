@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		273769512C0968C00050B423 /* basketballfixed.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 273769502C0968C00050B423 /* basketballfixed.usdz */; };
 		9535EA7A2C0048D100B38133 /* mainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9535EA792C0048D100B38133 /* mainMenu.swift */; };
 		95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */; };
 		B05CD4F52C0561BB004079CD /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B05CD4F42C0561BB004079CD /* FocusEntity */; };
 		B05CD4F72C05628B004079CD /* multiplayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05CD4F62C05628B004079CD /* multiplayerView.swift */; };
 		B05CD4F92C0562A5004079CD /* gameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05CD4F82C0562A5004079CD /* gameCenter.swift */; };
-		B0EFEC702C04250F00B27AA0 /* Basketball.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC6F2C04250F00B27AA0 /* Basketball.usdz */; };
 		B0EFEC722C04252900B27AA0 /* ring4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC712C04252900B27AA0 /* ring4.usdz */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
 		B0EFF1922BF6E62D00DF3902 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF1912BF6E62D00DF3902 /* ContentView.swift */; };
@@ -41,13 +41,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		273769502C0968C00050B423 /* basketballfixed.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = basketballfixed.usdz; sourceTree = "<group>"; };
 		9535EA792C0048D100B38133 /* mainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMenu.swift; sourceTree = "<group>"; };
 		9535EA7B2C00491000B38133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
 		B05CD4F62C05628B004079CD /* multiplayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multiplayerView.swift; sourceTree = "<group>"; };
 		B05CD4F82C0562A5004079CD /* gameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameCenter.swift; sourceTree = "<group>"; };
 		B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = basketballGame.entitlements; sourceTree = "<group>"; };
-		B0EFEC6F2C04250F00B27AA0 /* Basketball.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Basketball.usdz; sourceTree = "<group>"; };
 		B0EFEC712C04252900B27AA0 /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = ring4.usdz; sourceTree = "<group>"; };
 		B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basketballGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				B0EFEC712C04252900B27AA0 /* ring4.usdz */,
-				B0EFEC6F2C04250F00B27AA0 /* Basketball.usdz */,
+				273769502C0968C00050B423 /* basketballfixed.usdz */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -270,8 +270,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				95AC19202C00535C0080D894 /* RichuMastRegular.ttf in Resources */,
-				B0EFEC702C04250F00B27AA0 /* Basketball.usdz in Resources */,
 				B0EFEC722C04252900B27AA0 /* ring4.usdz in Resources */,
+				273769512C0968C00050B423 /* basketballfixed.usdz in Resources */,
 				B0EFF1972BF6E62E00DF3902 /* Preview Assets.xcassets in Resources */,
 				B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */,
 			);
