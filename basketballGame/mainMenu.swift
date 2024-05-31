@@ -10,9 +10,23 @@ import AuthenticationServices
 import GameKit
 
 struct mainMenu: View {
+    
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass // if iOS
     var viewController: UIViewController?
     
     var body: some View {
+        if horizontalSizeClass == .compact {
+            NavigationView {
+                content
+            }
+        } else {
+            NavigationStack {
+                content
+            }
+        }
+    }
+    
+    var content: some View {
         NavigationStack {
             ZStack {
                 Image("Wallpaper3")
