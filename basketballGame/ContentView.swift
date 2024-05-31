@@ -127,11 +127,8 @@ class CustomARView: ARView {
     func placeBasketball() {
         guard let focusEntity = self.focusEntity else { return }
         
-        let modelEntity = try! ModelEntity.load(named: "Basketball") // Replace with your asset name
+        let modelEntity = try! ModelEntity.load(named: "basketballfixed") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
-        
-        let ring4 = ModelEntity(mesh: .generateSphere(radius: 0.1))
-        anchorEntity.addChild(ring4)
         
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
