@@ -71,6 +71,8 @@ struct ContentView : View {
                                 isStart = true
                             }
                             isModelPlaced = true
+                            ActionManager.shared.actionStream.send(.placeBasketball)
+                            
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
@@ -134,6 +136,20 @@ class CustomARView: ARView {
         self.scene.addAnchor(anchorEntity)
     }
     
+    func placeBasketball() {
+        guard let focusEntity = self.focusEntity else { return }
+        
+        let modelEntity = try! ModelEntity.load(named: "Basketball") // Replace with your asset name
+        anchorEntity = AnchorEntity(world: focusEntity.position)
+        
+        let ring4 = ModelEntity(mesh: .generateSphere(radius: 0.1))
+        anchorEntity.addChild(ring4)
+        
+        anchorEntity.addChild(modelEntity)
+        modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
+        self.scene.addAnchor(anchorEntity)
+    }
+    
     func subscribeToActionStream() {
         ActionManager.shared
             .actionStream
@@ -143,6 +159,9 @@ class CustomARView: ARView {
                     
                 case .place3DModel:
                     self?.place3DModel()
+                    
+                case .placeBasketball:
+                    self?.placeBasketball()
                     
                 case .remove3DModel:
                     print("Removing 3D model")
@@ -172,6 +191,7 @@ class CustomARView: ARView {
 
 enum Actions {
     case place3DModel
+    case placeBasketball
     case remove3DModel
 }
 
