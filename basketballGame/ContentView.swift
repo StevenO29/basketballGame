@@ -12,12 +12,25 @@ import FocusEntity
 import Combine
 
 struct ContentView : View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass // if iOS
     @State private var isModelPlaced: Bool = false
     @State var score: Int = 0
     @State var timer: Int = 60
     @State var isStart = false
     
     var body: some View {
+        if horizontalSizeClass == .compact {
+            NavigationView {
+                content
+            }
+        } else {
+            NavigationStack {
+                content
+            }
+        }
+    }
+    
+    var content: some View {
         ZStack {
             ARViewContainer().edgesIgnoringSafeArea(.all)
             VStack {
