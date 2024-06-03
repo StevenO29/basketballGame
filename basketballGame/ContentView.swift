@@ -57,9 +57,11 @@ struct ContentView : View {
                             }
                             if isModelPlaced == true {
                                 isStart = true
+                                ActionManager.shared.actionStream.send(.placeBasketball)
+                               
                             }
                             isModelPlaced = true
-                            ActionManager.shared.actionStream.send(.placeBasketball)
+
                             
                         }
                         .buttonStyle(.borderedProminent)
@@ -133,7 +135,10 @@ class CustomARView: ARView {
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
+        
+        focusEntity.destroy()
     }
+    
     
     func subscribeToActionStream() {
         ActionManager.shared
