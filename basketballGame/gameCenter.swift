@@ -90,7 +90,7 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         // Create a match request.
         let request = GKMatchRequest()
         request.minPlayers = 2
-        request.maxPlayers = 2
+        request.maxPlayers = 4
         
         // If you use matchmaking rules, set the GKMatchRequest.queueName property here. If the rules use
         // game-specific properties, set the local player's GKMatchRequest.properties too.
