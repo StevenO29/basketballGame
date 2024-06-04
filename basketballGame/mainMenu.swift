@@ -12,6 +12,7 @@ import GameKit
 struct mainMenu: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass // if iOS
+    @StateObject private var game = gameCenter()
     var viewController: UIViewController?
     
     var body: some View {
@@ -91,17 +92,8 @@ struct mainMenu: View {
                 }
                 .padding(.top, 50) // Tambahkan padding jika ingin memberikan jarak dari atas layar
                 .onAppear{
-                    GKLocalPlayer.local.authenticateHandler = { gcAuthVC, error in
-                        if GKLocalPlayer.local.isAuthenticated {
-                            print("Authenticated to Game Center!")
-                            print(GKLocalPlayer.local.teamPlayerID)
-                        } else if let vc = gcAuthVC {
-                            self.viewController?.present(vc, animated: true)
-                        }
-                        else {
-                            print("Error authentication to GameCenter: " +
-                                  "\(error?.localizedDescription ?? "none")")
-                        }
+                    if !game.playingGame {
+                        game.authenticatePlayer()
                     }
                 }
             }

@@ -12,9 +12,8 @@ import SwiftUI
 /// - Tag:RealTimeGame
 @MainActor
 class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
-    
-    
-    
+    // The local player's friends, if they grant access.
+    @Published var friends: [Friend] = []
     
     // The game interface state.
     @Published var matchAvailable = false
@@ -60,12 +59,56 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         return windowScene?.windows.first?.rootViewController
     }
     
+    /// Authenticates the local player, initiates a multiplayer game, and adds the access point.
+    /// - Tag:authenticatePlayer
+    func authenticatePlayer() {
+        // Set the authentication handler that GameKit invokes.
+        GKLocalPlayer.local.authenticateHandler = { viewController, error in
+            if let viewController = viewController {
+                // If the view controller is non-nil, present it to the player so they can
+                // perform some necessary action to complete authentication.
+                self.rootViewController?.present(viewController, animated: true) { }
+                return
+            }
+            if let error {
+                // If you can’t authenticate the player, disable Game Center features in your game.
+                print("Error: \(error.localizedDescription).")
+                return
+            }
+            
+            // A value of nil for viewController indicates successful authentication, and you can access
+            // local player properties.
+            
+            // Load the local player's avatar.
+            GKLocalPlayer.local.loadPhoto(for: GKPlayer.PhotoSize.small) { image, error in
+                if let image {
+                    self.myAvatar = Image(uiImage: image)
+                }
+                if let error {
+                    // Handle an error if it occurs.
+                    print("Error: \(error.localizedDescription).")
+                }
+            }
+
+            // Register for real-time invitations from other players.
+            GKLocalPlayer.local.register(self)
+            
+            // Add an access point to the interface.
+            GKAccessPoint.shared.location = .topTrailing
+            GKAccessPoint.shared.showHighlights = true
+            GKAccessPoint.shared.isActive = true
+            
+            // Enable the Start Game button.
+            self.matchAvailable = true
+        }
+    }
+    
     /// Starts the matchmaking process where GameKit finds a player for the match.
     /// - Tag:findPlayer
     func findPlayer() async {
         let request = GKMatchRequest()
         request.minPlayers = 2
-        request.maxPlayers = 2
+        request.maxPlayers = 4
         let match: GKMatch
         
         // If you use matchmaking rules, set the GKMatchRequest.queueName property here. If the rules use
@@ -171,68 +214,3 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         })
     }
 }
-
-extension gameCenter: GKMatchmakerViewControllerDelegate {
-    /// Dismisses the matchmaker interface and starts the game when a player accepts an invitation.
-    func matchmakerViewController(_ viewController: GKMatchmakerViewController,
-                                  didFind match: GKMatch) {
-        // Dismiss the view controller.
-        viewController.dismiss(animated: true) { }
-    }
-    
-    /// Dismisses the matchmaker interface when either player cancels matchmaking.
-    func matchmakerViewControllerWasCancelled(_ viewController: GKMatchmakerViewController) {
-        viewController.dismiss(animated: true)
-    }
-    
-    /// Reports an error during the matchmaking process.
-    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: Error) {
-        print("\n\nMatchmaker view controller fails with error: \(error.localizedDescription)")
-    }
-    
-    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
-        // Dismiss the view controller.
-        gameCenterViewController.dismiss(animated: true)
-    }
-}
-
-extension gameCenter: GKMatchDelegate {
-    /// Handles a connected, disconnected, or unknown player state.
-    /// - Tag:didChange
-    func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState) {
-        switch state {
-        case .connected:
-            print("\(player.displayName) Connected")
-            
-            // For automatch, set the opponent and load their avatar.
-            if match.expectedPlayerCount == 0 {
-                opponent = match.players[0]
-                
-                // Load the opponent's avatar.
-                opponent?.loadPhoto(for: GKPlayer.PhotoSize.small) { (image, error) in
-                    if let image {
-                        self.opponentAvatar = Image(uiImage: image)
-                    }
-                    if let error {
-                        print("Error: \(error.localizedDescription).")
-                    }
-                }
-            }
-        case .disconnected:
-            print("\(player.displayName) Disconnected")
-        default:
-            print("\(player.displayName) Connection Unknown")
-        }
-    }
-    
-    /// Handles an error during the matchmaking process.
-    func match(_ match: GKMatch, didFailWithError error: Error?) {
-        print("\n\nMatch object fails with error: \(error!.localizedDescription)")
-    }
-
-    /// Reinvites a player when they disconnect from the match.
-    func match(_ match: GKMatch, shouldReinviteDisconnectedPlayer player: GKPlayer) -> Bool {
-        return false
-    }
-}
-
