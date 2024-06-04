@@ -91,6 +91,8 @@ class CustomARView: ARView {
     var cancellables: Set<AnyCancellable> = []
     var anchorEntity = AnchorEntity()
     
+    var basketballEntity: Entity?
+    
     init() {
         super.init(frame: .zero)
         
@@ -124,21 +126,39 @@ class CustomARView: ARView {
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
+
     }
     
     func placeBasketball() {
         guard let focusEntity = self.focusEntity else { return }
         
-        let modelEntity = try! ModelEntity.load(named: "basketballfixed") // Replace with your asset name
+        basketballEntity = try! ModelEntity.load(named: "basketballfixed") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
         
-        anchorEntity.addChild(modelEntity)
-        modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
+        anchorEntity.addChild(basketballEntity!)
+        basketballEntity?.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
         
         focusEntity.destroy()
-    }
     
+    }
+    func updateCursorPosition() {
+
+        let cameraTransform: Transform = cameraTransform
+
+        // 1. Calculate the local camera position, relative to the sceneEntity
+        let localCameraPosition: SIMD3<Float> = anchorEntity.convert(position: cameraTransform.translation, from: nil)
+
+        // 2. Get the forward-facing directional vector of the camera using the extension described above
+        let cameraForwardVector: SIMD3<Float> = cameraTransform.matrix.forward
+
+        // 3. Calculate the final local position of the cursor using distanceFromCamera
+        let finalPosition: SIMD3<Float> = localCameraPosition + 0.75 * 0.05
+        
+        // 4. Apply the translation
+        basketballEntity?.transform.translation = finalPosition
+
+    }
     
     func subscribeToActionStream() {
         ActionManager.shared
@@ -176,6 +196,12 @@ class CustomARView: ARView {
     
     @MainActor required dynamic init(frame frameRect: CGRect) {
         fatalError("init(frame:) has not been implemented")
+    }
+}
+
+extension float4x4 {
+    var forward: SIMD3<Float> {
+        normalize(SIMD3<Float>(-columns.2.x, -columns.2.y, -columns.2.z))
     }
 }
 
