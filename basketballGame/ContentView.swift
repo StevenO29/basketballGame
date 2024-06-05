@@ -117,8 +117,12 @@ class CustomARView: ARView {
         let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
         
+        // Ensure the ring is always facing forward and rotated 90 degrees upwards
+        let forwardRotation = simd_quatf(angle: -.pi / 2, axis: SIMD3<Float>(1, 0, 0))
+        modelEntity.orientation = forwardRotation
+        
         anchorEntity.addChild(modelEntity)
-        modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
+        modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
         self.scene.addAnchor(anchorEntity)
     }
     
@@ -130,10 +134,15 @@ class CustomARView: ARView {
         let cameraForwardDirection = self.cameraTransform.matrix.forward
         let offset: Float = 0.5
         basketballEntity?.position = cameraPosition + offset * cameraForwardDirection
+
+        // Add physics to the basketball entity
+        var physics = PhysicsBodyComponent()
+        physics.mode = .dynamic
+        basketballEntity?.components.set(physics)
         
         anchorEntity = AnchorEntity(world: basketballEntity!.position)
         anchorEntity.addChild(basketballEntity!)
-        basketballEntity?.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
+        basketballEntity?.scale = SIMD3<Float>(x: 0.07, y: 0.07, z: 0.07)
         self.scene.addAnchor(anchorEntity)
         
         focusEntity.destroy()
@@ -174,6 +183,7 @@ class CustomARView: ARView {
     func setupGestures() {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         self.addGestureRecognizer(panGesture)
+        
     }
     
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
