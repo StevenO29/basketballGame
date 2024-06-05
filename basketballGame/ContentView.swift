@@ -1,4 +1,3 @@
-//
 //  ContentView.swift
 //  basketballGame
 //
@@ -41,7 +40,7 @@ struct ContentView : View {
                 Spacer()
                 Spacer()
                 
-                if isStart == false{
+                if isStart == false {
                     HStack {
                         Button("Reset", role: .destructive) {
                             ActionManager.shared.actionStream.send(.remove3DModel)
@@ -58,11 +57,8 @@ struct ContentView : View {
                             if isModelPlaced == true {
                                 isStart = true
                                 ActionManager.shared.actionStream.send(.placeBasketball)
-                               
                             }
                             isModelPlaced = true
-
-                            
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
@@ -84,8 +80,6 @@ struct ARViewContainer: UIViewRepresentable {
     func updateUIView(_ uiView: CustomARView, context: Context) {}
 }
 
-
-
 class CustomARView: ARView {
     var focusEntity: FocusEntity?
     var cancellables: Set<AnyCancellable> = []
@@ -96,7 +90,7 @@ class CustomARView: ARView {
     init() {
         super.init(frame: .zero)
         
-        // ActionStrean
+        // ActionStream
         subscribeToActionStream()
         
         // FocusEntity
@@ -112,9 +106,9 @@ class CustomARView: ARView {
         }
         
         self.environment.sceneUnderstanding.options.insert(.occlusion)
-
-        
         self.session.run(config)
+        
+        setupGestures()
     }
     
     func place3DModel() {
@@ -123,25 +117,21 @@ class CustomARView: ARView {
         let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
         
-//        modelEntity.orientation = self.cameraTransform.rotation
-        
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
-
     }
     
     func placeBasketball() {
         guard let focusEntity = self.focusEntity else { return }
         
         basketballEntity = try! ModelEntity.load(named: "basketballfixed") // Replace with your asset name
-        anchorEntity = AnchorEntity(world: focusEntity.position)
-        
         let cameraPosition = self.cameraTransform.translation
         let cameraForwardDirection = self.cameraTransform.matrix.forward
         let offset: Float = 0.5
         basketballEntity?.position = cameraPosition + offset * cameraForwardDirection
         
+        anchorEntity = AnchorEntity(world: basketballEntity!.position)
         anchorEntity.addChild(basketballEntity!)
         basketballEntity?.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
@@ -150,52 +140,53 @@ class CustomARView: ARView {
     }
     
     func updateCursorPosition() {
-
         let cameraTransform: Transform = cameraTransform
 
-        // 1. Calculate the local camera position, relative to the sceneEntity
         let localCameraPosition: SIMD3<Float> = anchorEntity.convert(position: cameraTransform.translation, from: nil)
-
-        // 2. Get the forward-facing directional vector of the camera using the extension described above
         let _: SIMD3<Float> = cameraTransform.matrix.forward
-
-        // 3. Calculate the final local position of the cursor using distanceFromCamera
         let finalPosition: SIMD3<Float> = localCameraPosition + 0.75 * 0.05
         
-        // 4. Apply the translation
         basketballEntity?.transform.translation = finalPosition
-
     }
     
     func subscribeToActionStream() {
         ActionManager.shared
             .actionStream
             .sink { [weak self] action in
-                    
                 switch action {
-                    
                 case .place3DModel:
                     self?.place3DModel()
-                    
                 case .placeBasketball:
                     self?.placeBasketball()
-                    
                 case .remove3DModel:
                     print("Removing 3D model")
                     guard let scene = self?.scene else { return }
                     
-                    // Find all anchors with the name "ring4"
                     _ = scene.anchors.filter { anchor in
                         anchor.children.contains { $0.name == "ring4" }
                     }
-                    
-                    // Remove found anchors
                     self!.anchorEntity.removeFromParent()
                 }
             }
             .store(in: &cancellables)
     }
-
+    
+    func setupGestures() {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.addGestureRecognizer(panGesture)
+    }
+    
+    @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        guard let basketballEntity = basketballEntity else { return }
+        let translation = gesture.translation(in: gesture.view)
+        
+        var newPosition = basketballEntity.position
+        newPosition.x += Float(translation.x) * 0.001
+        newPosition.y -= Float(translation.y) * 0.001
+        
+        basketballEntity.position = newPosition
+        gesture.setTranslation(.zero, in: gesture.view)
+    }
     
     @MainActor required dynamic init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
