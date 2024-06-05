@@ -123,6 +123,8 @@ class CustomARView: ARView {
         let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
         
+//        modelEntity.orientation = self.cameraTransform.rotation
+        
         anchorEntity.addChild(modelEntity)
         modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
@@ -135,13 +137,18 @@ class CustomARView: ARView {
         basketballEntity = try! ModelEntity.load(named: "basketballfixed") // Replace with your asset name
         anchorEntity = AnchorEntity(world: focusEntity.position)
         
+        let cameraPosition = self.cameraTransform.translation
+        let cameraForwardDirection = self.cameraTransform.matrix.forward
+        let offset: Float = 0.5
+        basketballEntity?.position = cameraPosition + offset * cameraForwardDirection
+        
         anchorEntity.addChild(basketballEntity!)
         basketballEntity?.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05) // Fixed syntax here
         self.scene.addAnchor(anchorEntity)
         
         focusEntity.destroy()
-    
     }
+    
     func updateCursorPosition() {
 
         let cameraTransform: Transform = cameraTransform
@@ -150,7 +157,7 @@ class CustomARView: ARView {
         let localCameraPosition: SIMD3<Float> = anchorEntity.convert(position: cameraTransform.translation, from: nil)
 
         // 2. Get the forward-facing directional vector of the camera using the extension described above
-        let cameraForwardVector: SIMD3<Float> = cameraTransform.matrix.forward
+        let _: SIMD3<Float> = cameraTransform.matrix.forward
 
         // 3. Calculate the final local position of the cursor using distanceFromCamera
         let finalPosition: SIMD3<Float> = localCameraPosition + 0.75 * 0.05
