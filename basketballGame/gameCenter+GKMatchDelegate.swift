@@ -8,6 +8,7 @@
 import Foundation
 import GameKit
 import SwiftUI
+import ARKit
 
 extension gameCenter: GKMatchDelegate {
     /// Handles a connected, disconnected, or unknown player state.
@@ -46,5 +47,29 @@ extension gameCenter: GKMatchDelegate {
     /// Reinvites a player when they disconnect from the match.
     func match(_ match: GKMatch, shouldReinviteDisconnectedPlayer player: GKPlayer) -> Bool {
         return false
+    }
+    
+    /// Handles receiving data from other players.
+    func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
+        // Deserialize the data to ARWorldMap
+        if let arWorldMap = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ARWorldMap.self, from: data) {
+            // Update the AR session with the received world map
+            let configuration = ARWorldTrackingConfiguration()
+            configuration.initialWorldMap = arWorldMap
+            arView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+            print("Received ARWorldMap from \(player.displayName)")
+        }
+    }
+    
+    /// Function to send ARWorldMap to all players
+    func sendARWorldMap(_ worldMap: ARWorldMap, to match: GKMatch) {
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: worldMap, requiringSecureCoding: true) {
+            do {
+                try match.sendData(toAllPlayers: data, with: .reliable)
+                print("ARWorldMap sent to all players")
+            } catch {
+                print("Failed to send ARWorldMap: \(error.localizedDescription)")
+            }
+        }
     }
 }

@@ -15,6 +15,7 @@ import Combine
 
 struct multiplayerView: View {
     
+    @StateObject private var game = gameCenter()
     @State private var isModelPlaced: Bool = false
     @State var score: Int = 0
     @State var timer: Int = 60
@@ -73,6 +74,9 @@ struct multiplayerView: View {
                 }
                 
                 Spacer()
+            }
+            .onAppear {
+                game.choosePlayer()
             }
         }
     }

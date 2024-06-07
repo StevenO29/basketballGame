@@ -13,6 +13,9 @@ struct mainMenu: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass // if iOS
     @StateObject private var game = gameCenter()
+    @State private var showAlert = false
+    @State private var navigateToContentView = false
+    @State private var navigateToMultiplayer = false
     var viewController: UIViewController?
     
     var body: some View {
@@ -48,7 +51,9 @@ struct mainMenu: View {
                     
                     // Tombol pertama: Solo
                     VStack {
-                        NavigationLink(destination: ContentView()) {
+                        Button(action: {
+                            showAlert = true
+                        }) {
                             Text("Solo Player")
                         }
                         .foregroundColor(.whiteColor)
@@ -58,10 +63,22 @@ struct mainMenu: View {
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .font(.custom("RichuMastRegular", size: 30))
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("Important"),
+                                message: Text("Make sure your position does not change and point the camera forward"),
+                                dismissButton: .default(Text("OK"), action: {
+                                    navigateToContentView = true
+                                })
+                            )
+                        }
+                        .background(NavigationLink(destination: ContentView(), isActive: $navigateToContentView, label: { EmptyView() }))
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol kedua: Multi Player
-                        NavigationLink(destination: multiplayerView()) {
+                        Button(action: {
+                            showAlert = true
+                        }) {
                             Text("Multiplayer")
                         }
                         .foregroundColor(.whiteColor)
@@ -71,6 +88,16 @@ struct mainMenu: View {
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .font(.custom("RichuMastRegular", size: 30))
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("Important"),
+                                message: Text("Make sure your position does not change and point the camera forward"),
+                                dismissButton: .default(Text("OK"), action: {
+                                    navigateToMultiplayer = true
+                                })
+                            )
+                        }
+                        .background(NavigationLink(destination: multiplayerView(), isActive: $navigateToMultiplayer, label: { EmptyView() }))
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol ketiga: Leader Board

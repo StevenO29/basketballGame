@@ -8,6 +8,7 @@ The main class that implements the logic for a simple real-time game.
 import Foundation
 import GameKit
 import SwiftUI
+import RealityKit
 
 /// - Tag:RealTimeGame
 @MainActor
@@ -37,6 +38,8 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // The voice chat properties.
     @Published var voiceChat: GKVoiceChat? = nil
     @Published var opponentSpeaking = false
+    
+    @Published var arView: ARView!
     
     /// The name of the match.
     var matchName: String {
