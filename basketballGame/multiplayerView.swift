@@ -11,15 +11,15 @@ import Foundation
 import MultipeerConnectivity
 import ARKit
 import RealityKit
+import Combine
 
 struct multiplayerView: View {
     
-    @StateObject private var game = gameCenter()
     @State private var isModelPlaced: Bool = false
     @State var score: Int = 0
     @State var timer: Int = 60
-    @State var isShare = false
-    @State var sceneView: ARSCNView!
+    @State var isShared = false
+    @State var cancellable: AnyCancellable? = nil
     
     var body: some View {
         ZStack {
@@ -44,25 +44,28 @@ struct multiplayerView: View {
                 Spacer()
                 Spacer()
                 
-                if isShare == false {
+                if isShared == false {
                     HStack {
                         Button("Reset", role: .destructive) {
                             ActionManager.shared.actionStream.send(.remove3DModel)
                             isModelPlaced = false
+                            timer = 60
+                            cancellable?.cancel()
+                            isShared = false
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                         .disabled(!isModelPlaced)
                         
-                        Button(isModelPlaced ? "Share" : "Place") {
+                        Button(isModelPlaced ? "Start" : "Place") {
                             if isModelPlaced == false {
                                 ActionManager.shared.actionStream.send(.place3DModel)
+                                isModelPlaced = true
+                            } else {
+                                startTimer()
+                                ActionManager.shared.actionStream.send(.placeBasketball)
+                                isShared = true
                             }
-                            if isModelPlaced == true {
-                                isShare = true
-                                
-                            }
-                            isModelPlaced = true
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
@@ -72,6 +75,19 @@ struct multiplayerView: View {
                 Spacer()
             }
         }
+    }
+    
+    func startTimer() {
+        cancellable = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink { _ in
+                if self.timer > 0 {
+                    self.timer -= 1
+                } else {
+                    self.cancellable?.cancel()
+                    self.isShared = false
+                }
+            }
     }
 }
 

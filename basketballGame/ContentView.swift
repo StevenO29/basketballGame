@@ -1,9 +1,6 @@
-//
-//  ContentView.swift
+// ContentView.swift
 //  basketballGame
-//
 //  Created by Steven Ongkowidjojo on 17/05/24.
-//
 
 import SwiftUI
 import ARKit
@@ -102,7 +99,6 @@ class CustomARView: ARView {
     var focusEntity: FocusEntity?
     var cancellables: Set<AnyCancellable> = []
     var anchorEntity = AnchorEntity()
-    
     var basketballEntity: Entity?
     
     init() {
