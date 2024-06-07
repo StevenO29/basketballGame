@@ -17,6 +17,7 @@
 		B05CD4F52C0561BB004079CD /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B05CD4F42C0561BB004079CD /* FocusEntity */; };
 		B05CD4F72C05628B004079CD /* multiplayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05CD4F62C05628B004079CD /* multiplayerView.swift */; };
 		B05CD4F92C0562A5004079CD /* gameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05CD4F82C0562A5004079CD /* gameCenter.swift */; };
+		B0EFD41E2C11718E0006213F /* multipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFD41D2C11718E0006213F /* multipeerSession.swift */; };
 		B0EFEC722C04252900B27AA0 /* ring4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC712C04252900B27AA0 /* ring4.usdz */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
 		B0EFF1922BF6E62D00DF3902 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF1912BF6E62D00DF3902 /* ContentView.swift */; };
@@ -55,6 +56,7 @@
 		B016D4B52C0EA6210063611D /* gameCenter+GKLocalPlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+GKLocalPlayerListener.swift"; sourceTree = "<group>"; };
 		B05CD4F62C05628B004079CD /* multiplayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multiplayerView.swift; sourceTree = "<group>"; };
 		B05CD4F82C0562A5004079CD /* gameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameCenter.swift; sourceTree = "<group>"; };
+		B0EFD41D2C11718E0006213F /* multipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multipeerSession.swift; sourceTree = "<group>"; };
 		B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = basketballGame.entitlements; sourceTree = "<group>"; };
 		B0EFEC712C04252900B27AA0 /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = ring4.usdz; sourceTree = "<group>"; };
 		B0EFF18C2BF6E62D00DF3902 /* basketballGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basketballGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +137,7 @@
 				9535EA792C0048D100B38133 /* mainMenu.swift */,
 				B0EFF1912BF6E62D00DF3902 /* ContentView.swift */,
 				B05CD4F62C05628B004079CD /* multiplayerView.swift */,
+				B0EFD41D2C11718E0006213F /* multipeerSession.swift */,
 				B05CD4F82C0562A5004079CD /* gameCenter.swift */,
 				B016D4B32C0EA2760063611D /* gameCenter+GKMatchDelegate.swift */,
 				B016D4B12C0EA2290063611D /* gameCenter+GKMatchmakerViewControllerDelegate.swift */,
@@ -316,6 +319,7 @@
 				B0EFF1922BF6E62D00DF3902 /* ContentView.swift in Sources */,
 				B016D4B22C0EA2290063611D /* gameCenter+GKMatchmakerViewControllerDelegate.swift in Sources */,
 				B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */,
+				B0EFD41E2C11718E0006213F /* multipeerSession.swift in Sources */,
 				B05CD4F92C0562A5004079CD /* gameCenter.swift in Sources */,
 				B016D4B42C0EA2760063611D /* gameCenter+GKMatchDelegate.swift in Sources */,
 				B05CD4F72C05628B004079CD /* multiplayerView.swift in Sources */,

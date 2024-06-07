@@ -94,7 +94,7 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
             GKLocalPlayer.local.register(self)
             
             // Add an access point to the interface.
-            GKAccessPoint.shared.location = .topTrailing
+            GKAccessPoint.shared.location = .topLeading
             GKAccessPoint.shared.showHighlights = true
             GKAccessPoint.shared.isActive = true
             

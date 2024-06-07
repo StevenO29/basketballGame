@@ -1,3 +1,4 @@
+//
 //  ContentView.swift
 //  basketballGame
 //
@@ -16,6 +17,7 @@ struct ContentView : View {
     @State var score: Int = 0
     @State var timer: Int = 60
     @State var isStart = false
+    @State var cancellable: AnyCancellable? = nil
     
     var body: some View {
         ZStack {
@@ -45,20 +47,23 @@ struct ContentView : View {
                         Button("Reset", role: .destructive) {
                             ActionManager.shared.actionStream.send(.remove3DModel)
                             isModelPlaced = false
+                            timer = 60
+                            cancellable?.cancel()
+                            isStart = false
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
-                        .disabled(!isModelPlaced) // Disable the button if the model is not placed
+                        .disabled(!isModelPlaced)
                         
                         Button(isModelPlaced ? "Start" : "Place") {
                             if isModelPlaced == false {
                                 ActionManager.shared.actionStream.send(.place3DModel)
-                            }
-                            if isModelPlaced == true {
-                                isStart = true
+                                isModelPlaced = true
+                            } else {
+                                startTimer()
                                 ActionManager.shared.actionStream.send(.placeBasketball)
+                                isStart = true
                             }
-                            isModelPlaced = true
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
@@ -68,6 +73,19 @@ struct ContentView : View {
                 Spacer()
             }
         }
+    }
+    
+    func startTimer() {
+        cancellable = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink { _ in
+                if self.timer > 0 {
+                    self.timer -= 1
+                } else {
+                    self.cancellable?.cancel()
+                    self.isStart = false
+                }
+            }
     }
 }
 
@@ -90,13 +108,9 @@ class CustomARView: ARView {
     init() {
         super.init(frame: .zero)
         
-        // ActionStream
         subscribeToActionStream()
-        
-        // FocusEntity
         self.focusEntity = FocusEntity(on: self, style: .classic(color: .yellow))
         
-        // Configuration
         let config = ARWorldTrackingConfiguration()
         config.planeDetection = [.horizontal]
         config.environmentTexturing = .automatic
@@ -114,10 +128,9 @@ class CustomARView: ARView {
     func place3DModel() {
         guard let focusEntity = self.focusEntity else { return }
         
-        let modelEntity = try! ModelEntity.load(named: "ring4") // Replace with your asset name
+        let modelEntity = try! ModelEntity.load(named: "ring4")
         anchorEntity = AnchorEntity(world: focusEntity.position)
         
-        // Ensure the ring is always facing forward and rotated 90 degrees upwards
         let forwardRotation = simd_quatf(angle: -.pi / 2, axis: SIMD3<Float>(1, 0, 0))
         modelEntity.orientation = forwardRotation
         
@@ -129,13 +142,12 @@ class CustomARView: ARView {
     func placeBasketball() {
         guard let focusEntity = self.focusEntity else { return }
         
-        basketballEntity = try! ModelEntity.load(named: "basketballfixed") // Replace with your asset name
+        basketballEntity = try! ModelEntity.load(named: "basketballfixed")
         let cameraPosition = self.cameraTransform.translation
         let cameraForwardDirection = self.cameraTransform.matrix.forward
         let offset: Float = 0.5
         basketballEntity?.position = cameraPosition + offset * cameraForwardDirection
 
-        // Add physics to the basketball entity
         var physics = PhysicsBodyComponent()
         physics.mode = .dynamic
         basketballEntity?.components.set(physics)
@@ -184,6 +196,9 @@ class CustomARView: ARView {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         self.addGestureRecognizer(panGesture)
         
+        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUp))
+        swipeUpGesture.direction = .up
+        self.addGestureRecognizer(swipeUpGesture)
     }
     
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
@@ -196,6 +211,18 @@ class CustomARView: ARView {
         
         basketballEntity.position = newPosition
         gesture.setTranslation(.zero, in: gesture.view)
+    }
+    
+    @objc func handleSwipeUp(gesture: UISwipeGestureRecognizer) {
+        guard let basketballEntity = basketballEntity else { return }
+        
+        let force: Float = 10.0
+        let direction = self.cameraTransform.matrix.forward + SIMD3<Float>(4, 1, 1)
+        
+        if var physicsMotion = basketballEntity.components[PhysicsMotionComponent.self] as? PhysicsMotionComponent {
+                    physicsMotion.linearVelocity = direction * force
+                    basketballEntity.components.set(physicsMotion)
+                }
     }
     
     @MainActor required dynamic init?(coder decoder: NSCoder) {
