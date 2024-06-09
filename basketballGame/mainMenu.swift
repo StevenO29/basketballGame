@@ -13,7 +13,8 @@ struct mainMenu: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass // if iOS
     @StateObject private var game = gameCenter()
-    @State private var showAlert = false
+    @State private var showSoloAlert = false
+    @State private var showMultiplayerAlert = false
     @State private var navigateToContentView = false
     @State private var navigateToMultiplayer = false
     var viewController: UIViewController?
@@ -52,7 +53,7 @@ struct mainMenu: View {
                     // Tombol pertama: Solo
                     VStack {
                         Button(action: {
-                            showAlert = true
+                            showSoloAlert = true
                         }) {
                             Text("Solo Player")
                         }
@@ -63,11 +64,11 @@ struct mainMenu: View {
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .font(.custom("RichuMastRegular", size: 30))
-                        .alert(isPresented: $showAlert) {
+                        .alert(isPresented: $showSoloAlert) {
                             Alert(
                                 title: Text("Important"),
                                 message: Text("Make sure your position does not change and point the camera forward"),
-                                dismissButton: .default(Text("OK"), action: {
+                                dismissButton: .default(Text("Got it!"), action: {
                                     navigateToContentView = true
                                 })
                             )
@@ -77,7 +78,7 @@ struct mainMenu: View {
                         
                         // Tombol kedua: Multi Player
                         Button(action: {
-                            showAlert = true
+                            showMultiplayerAlert = true
                         }) {
                             Text("Multiplayer")
                         }
@@ -88,11 +89,11 @@ struct mainMenu: View {
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .font(.custom("RichuMastRegular", size: 30))
-                        .alert(isPresented: $showAlert) {
+                        .alert(isPresented: $showMultiplayerAlert) {
                             Alert(
                                 title: Text("Important"),
                                 message: Text("Make sure your position does not change and point the camera forward"),
-                                dismissButton: .default(Text("OK"), action: {
+                                dismissButton: .default(Text("Got it!"), action: {
                                     navigateToMultiplayer = true
                                 })
                             )

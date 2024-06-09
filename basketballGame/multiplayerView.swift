@@ -28,8 +28,14 @@ struct multiplayerView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Text("Score: \(score)")
-                        .font(.custom("RichuMastRegular", size: 25))
+                    VStack(alignment: .leading) {
+                        Text("Score:")
+                        Text("Player 1 : \(score)")
+                        Text("Player 2 : \(score)")
+                        Text("Player 3 : \(score)")
+                        Text("Player 4 : \(score)")
+                    }
+                    .font(.custom("RichuMastRegular", size: 20))
                     
                     Spacer()
                     Spacer()
