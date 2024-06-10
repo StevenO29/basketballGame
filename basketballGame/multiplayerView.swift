@@ -14,76 +14,52 @@ import RealityKit
 import Combine
 
 struct multiplayerView: View {
-    
     @StateObject private var game = gameCenter()
     @State private var isModelPlaced: Bool = false
-    @State var score: Int = 0
-    @State var timer: Int = 60
-    @State var isShared = false
-    @State var cancellable: AnyCancellable? = nil
+    @State private var isShared: Bool = false
+    @State private var timer: Int = 60
+    @State private var cancellable: AnyCancellable? = nil
     
     var body: some View {
-        ZStack {
-            ARViewContainer().edgesIgnoringSafeArea(.all)
-            VStack {
+        VStack {
+            Spacer()
+            
+            if isShared == false {
                 HStack {
-                    Spacer()
-                    VStack(alignment: .leading) {
-                        Text("Score:")
-                        Text("Player 1 : \(score)")
-                        Text("Player 2 : \(score)")
-                        Text("Player 3 : \(score)")
-                        Text("Player 4 : \(score)")
+                    Button(role: .destructive, action: {
+                        ActionManager.shared.actionStream.send(.removeAllModels)
+                        isModelPlaced = false
+                        timer = 60
+                        cancellable?.cancel()
+                        isShared = false
+                    }) {
+                        Text("Reset")
                     }
-                    .font(.custom("RichuMastRegular", size: 20))
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .disabled(!isModelPlaced)
                     
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    
-                    Text("Time: \(timer)")
-                        .font(.custom("RichuMastRegular", size: 25))
-                    Spacer()
-                }
-                
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                
-                if isShared == false {
-                    HStack {
-                        Button("Reset", role: .destructive) {
-                            ActionManager.shared.actionStream.send(.remove3DModel)
-                            isModelPlaced = false
-                            timer = 60
-                            cancellable?.cancel()
-                            isShared = false
+                    Button(action: {
+                        if isModelPlaced == false {
+                            ActionManager.shared.actionStream.send(.place3DModel)
+                            isModelPlaced = true
+                        } else {
+                            startTimer()
+                            ActionManager.shared.actionStream.send(.shoot)
+                            isShared = true
                         }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
-                        .disabled(!isModelPlaced)
-                        
-                        Button(isModelPlaced ? "Start" : "Place") {
-                            if isModelPlaced == false {
-                                ActionManager.shared.actionStream.send(.place3DModel)
-                                isModelPlaced = true
-                            } else {
-                                startTimer()
-                                ActionManager.shared.actionStream.send(.placeBasketball)
-                                isShared = true
-                            }
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
+                    }) {
+                        Text(isModelPlaced ? "Start" : "Place")
                     }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
                 }
-                
-                Spacer()
             }
-            .onAppear {
-                game.choosePlayer()
-            }
+            
+            Spacer()
+        }
+        .onAppear {
+            game.choosePlayer()
         }
     }
     
@@ -100,6 +76,7 @@ struct multiplayerView: View {
             }
     }
 }
+
 
 #Preview {
     multiplayerView()

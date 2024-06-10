@@ -1,4 +1,4 @@
-// ContentView.swift
+//  ContentView.swift
 //  basketballGame
 //  Created by Steven Ongkowidjojo on 17/05/24.
 
@@ -10,8 +10,8 @@ import Combine
 
 struct ContentView : View {
     
+    @ObservedObject var basketballManager = BasketballManager.shared
     @State private var isModelPlaced: Bool = false
-    @State var score: Int = 0
     @State var timer: Int = 60
     @State var isStart = false
     @State var cancellable: AnyCancellable? = nil
@@ -19,10 +19,18 @@ struct ContentView : View {
     var body: some View {
         ZStack {
             ARViewContainer().edgesIgnoringSafeArea(.all)
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            if value.translation.height < 0 {
+                                ActionManager.shared.actionStream.send(.shoot)
+                            }
+                        }
+                )
             VStack {
                 HStack {
                     Spacer()
-                    Text("Score: \(score)")
+                    Text("Score: \(basketballManager.totalScore)")
                         .font(.custom("RichuMastRegular", size: 25))
                     
                     Spacer()
@@ -42,7 +50,7 @@ struct ContentView : View {
                 if isStart == false {
                     HStack {
                         Button("Reset", role: .destructive) {
-                            ActionManager.shared.actionStream.send(.remove3DModel)
+                            ActionManager.shared.actionStream.send(.removeAllModels)
                             isModelPlaced = false
                             timer = 60
                             cancellable?.cancel()
@@ -58,7 +66,6 @@ struct ContentView : View {
                                 isModelPlaced = true
                             } else {
                                 startTimer()
-                                ActionManager.shared.actionStream.send(.placeBasketball)
                                 isStart = true
                             }
                         }
@@ -89,22 +96,32 @@ struct ContentView : View {
 struct ARViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> CustomARView {
-        return CustomARView()
+        return CustomARView(frame: UIScreen.main.bounds)
     }
     
     func updateUIView(_ uiView: CustomARView, context: Context) {}
 }
 
 class CustomARView: ARView {
-    var focusEntity: FocusEntity?
-    var cancellables: Set<AnyCancellable> = []
-    var anchorEntity = AnchorEntity()
-    var basketballEntity: Entity?
     
-    init() {
-        super.init(frame: .zero)
+    @ObservedObject var basketballManager = BasketballManager.shared
+    var collisionSubscription: Cancellable?
+    var anchorEntity = AnchorEntity()
+    var focusEntity: FocusEntity?
+    private var cancellables: Set<AnyCancellable> = []
+
+    required init(frame frameRect: CGRect) {
+        super.init(frame: frameRect)
         
+        setupARView()
         subscribeToActionStream()
+    }
+    
+    dynamic required init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupARView() {
         self.focusEntity = FocusEntity(on: self, style: .classic(color: .yellow))
         
         let config = ARWorldTrackingConfiguration()
@@ -115,55 +132,127 @@ class CustomARView: ARView {
             config.sceneReconstruction = .meshWithClassification
         }
         
-        self.environment.sceneUnderstanding.options.insert(.occlusion)
+//        self.environment.sceneUnderstanding.options.insert(.occlusion)
         self.session.run(config)
         
-        setupGestures()
+        collisionSubscription = scene.publisher(for: CollisionEvents.Began.self, on: nil)
+            .sink(receiveValue: onCollisionBegan)
+        
+        addCoaching()
     }
-    
-    func place3DModel() {
-        guard let focusEntity = self.focusEntity else { return }
-        
-        let modelEntity = try! ModelEntity.load(named: "ring4")
-        anchorEntity = AnchorEntity(world: focusEntity.position)
-        
-        let forwardRotation = simd_quatf(angle: -.pi / 2, axis: SIMD3<Float>(1, 0, 0))
-        modelEntity.orientation = forwardRotation
-        
-        anchorEntity.addChild(modelEntity)
-        modelEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
-        self.scene.addAnchor(anchorEntity)
-    }
-    
-    func placeBasketball() {
-        guard let focusEntity = self.focusEntity else { return }
-        
-        basketballEntity = try! ModelEntity.load(named: "basketballfixed")
-        let cameraPosition = self.cameraTransform.translation
-        let cameraForwardDirection = self.cameraTransform.matrix.forward
-        let offset: Float = 0.5
-        basketballEntity?.position = cameraPosition + offset * cameraForwardDirection
 
-        var physics = PhysicsBodyComponent()
-        physics.mode = .dynamic
-        basketballEntity?.components.set(physics)
+    private func onCollisionBegan(_ event: CollisionEvents.Began) {
+        print("Collide!")
+        let firstEntity = event.entityA
+        let secondEntity = event.entityB
         
-        anchorEntity = AnchorEntity(world: basketballEntity!.position)
-        anchorEntity.addChild(basketballEntity!)
-        basketballEntity?.scale = SIMD3<Float>(x: 0.07, y: 0.07, z: 0.07)
-        self.scene.addAnchor(anchorEntity)
+        if firstEntity.name == "triggerEntity" && secondEntity.name == "basketballEntity" {
+            print("Goal!")
+            basketballManager.totalScore += 1
+        }
+    }
+    
+    func addBasketHoop() {
+        guard let focusEntity = self.focusEntity else { return }
+        
+        collisionSubscription = scene.publisher(for: CollisionEvents.Began.self, on: nil).sink(receiveValue: onCollisionBegan)
+        
+        // BOX ENTITY FOR TRIGGER
+        let boxHeight: Float = 0.01
+        let box = MeshResource.generateBox(width: 0.4, height: boxHeight, depth: 0.5)
+        let material = SimpleMaterial(color: UIColor.clear, isMetallic: false)
+        let triggerEntity = ModelEntity(mesh: box, materials: [material])
+        
+        triggerEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.4, height: boxHeight, depth: 0.5)], mode: .trigger, filter: .sensor)
+        triggerEntity.name = "triggerEntity"
+        
+        let anchorPosition = AnchorEntity(world: focusEntity.position)
+        let anchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.25, z: focusEntity.position.z + 0.9))
+        anchor.addChild(triggerEntity)
+        
+        // BASKET HOOP ENTITY
+        let secondAnchor = AnchorEntity(world: focusEntity.position)
+        let basketHoopEntity = try! ModelEntity.loadModel(named: "ring4")
+        basketHoopEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+        secondAnchor.addChild(basketHoopEntity)
+        
+        // LEFT RING ENTITY
+        let leftRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.02, height: 0.02, depth: 0.5),
+                                         materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
+        leftRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+        leftRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.02, height: 0.02, depth: 0.5)])
+        leftRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
+        
+        let thirdAnchor = AnchorEntity(world: focusEntity.position)
+        thirdAnchor.addChild(leftRingEntity)
+        
+        // MIDDLE RING ENTITY
+        let middleRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.5, height: 0.02, depth: 0.02),
+                                           materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
+        middleRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+        middleRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.5, height: 0.02, depth: 0.02)])
+        middleRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
+        
+        let fourthAnchor = AnchorEntity(world: focusEntity.position)
+        fourthAnchor.addChild(middleRingEntity)
+        
+        // RIGHT RING ENTITY
+        let rightRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.02, height: 0.02, depth: 0.5),
+                                          materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
+        rightRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+        rightRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.02, height: 0.02, depth: 0.5)])
+        rightRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
+        
+        let fifthAnchor = AnchorEntity(world: focusEntity.position)
+        fifthAnchor.addChild(rightRingEntity)
+        
+        // BACK HOOP ENTITY
+        let backHoopEntity = ModelEntity(mesh: MeshResource.generateBox(width: 1.8, height: 1.5, depth: 0.02),
+                                         materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
+        backHoopEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+        backHoopEntity.collision = CollisionComponent(shapes: [.generateBox(width: 1.8, height: 1.5, depth: 0.02)])
+        backHoopEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
+        
+        let sixthAnchor = AnchorEntity(world: focusEntity.position)
+        sixthAnchor.addChild(backHoopEntity)
+        
+        scene.addAnchor(anchor)
+        scene.addAnchor(secondAnchor)
+        scene.addAnchor(thirdAnchor)
+        scene.addAnchor(fourthAnchor)
+        scene.addAnchor(fifthAnchor)
+        scene.addAnchor(sixthAnchor)
         
         focusEntity.destroy()
     }
-    
-    func updateCursorPosition() {
-        let cameraTransform: Transform = cameraTransform
 
-        let localCameraPosition: SIMD3<Float> = anchorEntity.convert(position: cameraTransform.translation, from: nil)
-        let _: SIMD3<Float> = cameraTransform.matrix.forward
-        let finalPosition: SIMD3<Float> = localCameraPosition + 0.75 * 0.05
+    func shoot() {
+        guard let frame = session.currentFrame else { return }
+        let cameraTransform = frame.camera.transform
         
-        basketballEntity?.transform.translation = finalPosition
+        let sphere = MeshResource.generateSphere(radius: 0.15)
+        let material = SimpleMaterial(color: UIColor(.orange), isMetallic: false)
+        let entity = ModelEntity(mesh: sphere, materials: [material])
+        
+        entity.collision = CollisionComponent(shapes: [.generateSphere(radius: 0.15)])
+        entity.physicsBody = PhysicsBodyComponent(massProperties: PhysicsMassProperties(mass: 0.65), material: .generate(friction: 0.4, restitution: 0.7), mode: .dynamic)
+        entity.name = "basketballEntity"
+        
+        let anchor = AnchorEntity(world: cameraTransform)
+        anchor.addChild(entity)
+        self.scene.addAnchor(anchor)
+        
+        let impulseMagnitude: Float = -5.2
+        let impulseVector = SIMD3<Float>(-3.7, 1, impulseMagnitude)
+        entity.applyLinearImpulse(impulseVector, relativeTo: entity.parent)
+    }
+    
+    private func addCoaching() {
+        let coachingOverlay = ARCoachingOverlayView()
+        coachingOverlay.session = session
+        coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        coachingOverlay.goal = .horizontalPlane
+        self.addSubview(coachingOverlay)
     }
     
     func subscribeToActionStream() {
@@ -172,61 +261,20 @@ class CustomARView: ARView {
             .sink { [weak self] action in
                 switch action {
                 case .place3DModel:
-                    self?.place3DModel()
-                case .placeBasketball:
-                    self?.placeBasketball()
-                case .remove3DModel:
-                    print("Removing 3D model")
-                    guard let scene = self?.scene else { return }
-                    
-                    _ = scene.anchors.filter { anchor in
-                        anchor.children.contains { $0.name == "ring4" }
-                    }
-                    self!.anchorEntity.removeFromParent()
+                    self?.addBasketHoop()
+                case .shoot:
+                    self?.shoot()
+                case .removeAllModels:
+                    self?.removeAllModels()
                 }
             }
             .store(in: &cancellables)
     }
     
-    func setupGestures() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.addGestureRecognizer(panGesture)
-        
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUp))
-        swipeUpGesture.direction = .up
-        self.addGestureRecognizer(swipeUpGesture)
-    }
-    
-    @objc func handlePan(gesture: UIPanGestureRecognizer) {
-        guard let basketballEntity = basketballEntity else { return }
-        let translation = gesture.translation(in: gesture.view)
-        
-        var newPosition = basketballEntity.position
-        newPosition.x += Float(translation.x) * 0.001
-        newPosition.y -= Float(translation.y) * 0.001
-        
-        basketballEntity.position = newPosition
-        gesture.setTranslation(.zero, in: gesture.view)
-    }
-    
-    @objc func handleSwipeUp(gesture: UISwipeGestureRecognizer) {
-        guard let basketballEntity = basketballEntity else { return }
-        
-        let force: Float = 10.0
-        let direction = self.cameraTransform.matrix.forward + SIMD3<Float>(4, 1, 1)
-        
-        if var physicsMotion = basketballEntity.components[PhysicsMotionComponent.self] as? PhysicsMotionComponent {
-                    physicsMotion.linearVelocity = direction * force
-                    basketballEntity.components.set(physicsMotion)
-                }
-    }
-    
-    @MainActor required dynamic init?(coder decoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    @MainActor required dynamic init(frame frameRect: CGRect) {
-        fatalError("init(frame:) has not been implemented")
+    func removeAllModels() {
+        scene.anchors.removeAll()
+        self.focusEntity = FocusEntity(on: self, style: .classic(color: .yellow))
+        print("All models removed and focus entity reset")
     }
 }
 
@@ -238,8 +286,8 @@ extension float4x4 {
 
 enum Actions {
     case place3DModel
-    case placeBasketball
-    case remove3DModel
+    case shoot
+    case removeAllModels
 }
 
 class ActionManager {
@@ -248,6 +296,13 @@ class ActionManager {
     private init() { }
     
     var actionStream = PassthroughSubject<Actions, Never>()
+}
+
+class BasketballManager: ObservableObject {
+    static let shared = BasketballManager()
+    @Published var totalScore: Int = 0
+    
+    private init() { }
 }
 
 #Preview {

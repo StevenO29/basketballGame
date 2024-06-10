@@ -92,8 +92,8 @@ struct mainMenu: View {
                         .alert(isPresented: $showMultiplayerAlert) {
                             Alert(
                                 title: Text("Important"),
-                                message: Text("Make sure your position does not change and point the camera forward"),
-                                dismissButton: .default(Text("Got it!"), action: {
+                                message: Text("Multiplayer mode is still under development"),
+                                dismissButton: .default(Text("OK"), action: {
                                     navigateToMultiplayer = true
                                 })
                             )
