@@ -12,6 +12,8 @@ struct ContentView : View {
     
     @ObservedObject var basketballManager = BasketballManager.shared
     @State private var isModelPlaced: Bool = false
+    @State private var gameStatus = false
+    @State private var backToMainMenu = false
     @State var timer: Int = 60
     @State var isStart = false
     @State var cancellable: AnyCancellable? = nil
@@ -22,7 +24,7 @@ struct ContentView : View {
                 .gesture(
                     DragGesture()
                         .onEnded { value in
-                            if value.translation.height < 0 {
+                            if value.translation.height < 0 && isStart {
                                 ActionManager.shared.actionStream.send(.shoot)
                             }
                         }
@@ -77,6 +79,16 @@ struct ContentView : View {
                 Spacer()
             }
         }
+        .alert(isPresented: $gameStatus) {
+            Alert(
+                title: Text("Time's Up!"),
+                message: Text("The game is over. Your score : \(basketballManager.totalScore)"),
+                dismissButton: .default(Text("Back to Main Menu"), action: {
+                    backToMainMenu = true
+                })
+            )
+        }
+        .background(NavigationLink(destination: mainMenu(), isActive: $backToMainMenu, label: { EmptyView() }))
     }
     
     func startTimer() {
@@ -88,6 +100,7 @@ struct ContentView : View {
                 } else {
                     self.cancellable?.cancel()
                     self.isStart = false
+                    self.gameStatus = true
                 }
             }
     }
@@ -132,7 +145,7 @@ class CustomARView: ARView {
             config.sceneReconstruction = .meshWithClassification
         }
         
-//        self.environment.sceneUnderstanding.options.insert(.occlusion)
+        self.environment.sceneUnderstanding.options.insert(.occlusion)
         self.session.run(config)
         
         collisionSubscription = scene.publisher(for: CollisionEvents.Began.self, on: nil)
@@ -158,12 +171,11 @@ class CustomARView: ARView {
         collisionSubscription = scene.publisher(for: CollisionEvents.Began.self, on: nil).sink(receiveValue: onCollisionBegan)
         
         // BOX ENTITY FOR TRIGGER
-        let boxHeight: Float = 0.01
-        let box = MeshResource.generateBox(width: 0.4, height: boxHeight, depth: 0.5)
+        let box = MeshResource.generateBox(width: 0.4, height: 0.01, depth: 0.5)
         let material = SimpleMaterial(color: UIColor.clear, isMetallic: false)
         let triggerEntity = ModelEntity(mesh: box, materials: [material])
         
-        triggerEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.4, height: boxHeight, depth: 0.5)], mode: .trigger, filter: .sensor)
+        triggerEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.4, height: 0.1, depth: 0.5)], mode: .trigger, filter: .sensor)
         triggerEntity.name = "triggerEntity"
         
         let anchorPosition = AnchorEntity(world: focusEntity.position)
@@ -179,7 +191,7 @@ class CustomARView: ARView {
         // LEFT RING ENTITY
         let leftRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.02, height: 0.02, depth: 0.5),
                                          materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-        leftRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+//        leftRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
         leftRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.02, height: 0.02, depth: 0.5)])
         leftRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
@@ -189,7 +201,7 @@ class CustomARView: ARView {
         // MIDDLE RING ENTITY
         let middleRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.5, height: 0.02, depth: 0.02),
                                            materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-        middleRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+//        middleRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
         middleRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.5, height: 0.02, depth: 0.02)])
         middleRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
@@ -199,7 +211,7 @@ class CustomARView: ARView {
         // RIGHT RING ENTITY
         let rightRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.02, height: 0.02, depth: 0.5),
                                           materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-        rightRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+//        rightRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
         rightRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.02, height: 0.02, depth: 0.5)])
         rightRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
@@ -209,7 +221,7 @@ class CustomARView: ARView {
         // BACK HOOP ENTITY
         let backHoopEntity = ModelEntity(mesh: MeshResource.generateBox(width: 1.8, height: 1.5, depth: 0.02),
                                          materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-        backHoopEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+//        backHoopEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
         backHoopEntity.collision = CollisionComponent(shapes: [.generateBox(width: 1.8, height: 1.5, depth: 0.02)])
         backHoopEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
