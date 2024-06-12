@@ -45,7 +45,7 @@ struct mainMenu: View {
                 
                 VStack {
                     Spacer().frame(height: 70)
-                    Text("AR HOOPS")
+                    Text("AR 3D Basketball")
                         .font(.custom("RichuMastRegular", size: 55))
                         .foregroundColor(.white)
                     Spacer().frame(height: 280) // Menambahkan spacer untuk memposisikan konten lainnya di bawah logo
