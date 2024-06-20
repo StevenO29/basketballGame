@@ -49,7 +49,7 @@
 		273769502C0968C00050B423 /* basketballfixed.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = basketballfixed.usdz; sourceTree = "<group>"; };
 		9535EA792C0048D100B38133 /* mainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMenu.swift; sourceTree = "<group>"; };
 		9535EA7B2C00491000B38133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
+		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = RichuMastRegular.ttf; path = Assets/RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
 		B016D4AF2C0EA19D0063611D /* gameCenter+Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+Friends.swift"; sourceTree = "<group>"; };
 		B016D4B12C0EA2290063611D /* gameCenter+GKMatchmakerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+GKMatchmakerViewControllerDelegate.swift"; sourceTree = "<group>"; };
 		B016D4B32C0EA2760063611D /* gameCenter+GKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+GKMatchDelegate.swift"; sourceTree = "<group>"; };
@@ -102,6 +102,7 @@
 			children = (
 				B0EFEC712C04252900B27AA0 /* ring4.usdz */,
 				273769502C0968C00050B423 /* basketballfixed.usdz */,
+				95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -110,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				B0EFEC6E2C0424F600B27AA0 /* Assets */,
-				95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */,
 				B0EFF18E2BF6E62D00DF3902 /* basketballGame */,
 				B0EFF19F2BF6E62E00DF3902 /* basketballGameTests */,
 				B0EFF1A92BF6E62E00DF3902 /* basketballGameUITests */,
@@ -505,7 +505,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -541,7 +541,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -7,6 +7,7 @@ import ARKit
 import RealityKit
 import FocusEntity
 import Combine
+import GameKit
 
 struct ContentView : View {
     
@@ -14,7 +15,7 @@ struct ContentView : View {
     @State private var isModelPlaced: Bool = false
     @State private var gameStatus = false
     @State private var backToMainMenu = false
-    @State var timer: Int = 60
+    @State var timer: Int = 10
     @State var isStart = false
     @State var cancellable: AnyCancellable? = nil
     
@@ -32,15 +33,23 @@ struct ContentView : View {
             VStack {
                 HStack {
                     Spacer()
-                    Text("Score: \(basketballManager.totalScore)")
-                        .font(.custom("RichuMastRegular", size: 25))
-                    
-                    Spacer()
+                    Text("Highscore: \(basketballManager.highScore)")
+                        .font(.custom("RichuMastRegular", size: 19))
+                        .multilineTextAlignment(.leading)
                     Spacer()
                     Spacer()
                     
                     Text("Time: \(timer)")
-                        .font(.custom("RichuMastRegular", size: 25))
+                        .font(.custom("RichuMastRegular", size: 20))
+                        .multilineTextAlignment(.center)
+                    
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Text("Score: \(basketballManager.totalScore)")
+                        .font(.custom("RichuMastRegular", size: 20))
+                        .multilineTextAlignment(.trailing)
+                    Spacer()
                     Spacer()
                 }
                 
@@ -85,10 +94,16 @@ struct ContentView : View {
                 message: Text("The game is over. Your score : \(basketballManager.totalScore)"),
                 dismissButton: .default(Text("Back to Main Menu"), action: {
                     backToMainMenu = true
+                    basketballManager.updateHighScore()
                 })
             )
         }
         .background(NavigationLink(destination: mainMenu(), isActive: $backToMainMenu, label: { EmptyView() }))
+        .onAppear {
+            basketballManager.loadHighScore()
+            basketballManager.totalScore = 0
+            GKAccessPoint.shared.isActive = false
+        }
     }
     
     func startTimer() {
@@ -122,7 +137,7 @@ class CustomARView: ARView {
     var anchorEntity = AnchorEntity()
     var focusEntity: FocusEntity?
     private var cancellables: Set<AnyCancellable> = []
-
+    
     required init(frame frameRect: CGRect) {
         super.init(frame: frameRect)
         
@@ -153,7 +168,7 @@ class CustomARView: ARView {
         
         addCoaching()
     }
-
+    
     private func onCollisionBegan(_ event: CollisionEvents.Began) {
         print("Collide!")
         let firstEntity = event.entityA
@@ -171,15 +186,15 @@ class CustomARView: ARView {
         collisionSubscription = scene.publisher(for: CollisionEvents.Began.self, on: nil).sink(receiveValue: onCollisionBegan)
         
         // BOX ENTITY FOR TRIGGER
-        let box = MeshResource.generateBox(width: 0.4, height: 0.01, depth: 0.5)
+        let box = MeshResource.generateBox(width: 0.4, height: 0.01, depth: 0.35)
         let material = SimpleMaterial(color: UIColor.clear, isMetallic: false)
         let triggerEntity = ModelEntity(mesh: box, materials: [material])
         
-        triggerEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.4, height: 0.1, depth: 0.5)], mode: .trigger, filter: .sensor)
+        triggerEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.4, height: 0.01, depth: 0.35)], mode: .trigger, filter: .sensor)
         triggerEntity.name = "triggerEntity"
         
         let anchorPosition = AnchorEntity(world: focusEntity.position)
-        let anchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.25, z: focusEntity.position.z + 0.9))
+        let anchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.25, z: focusEntity.position.z + 0.96))
         anchor.addChild(triggerEntity)
         
         // BASKET HOOP ENTITY
@@ -191,41 +206,41 @@ class CustomARView: ARView {
         // LEFT RING ENTITY
         let leftRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.02, height: 0.02, depth: 0.5),
                                          materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-//        leftRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+        
         leftRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.02, height: 0.02, depth: 0.5)])
         leftRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
-        let thirdAnchor = AnchorEntity(world: focusEntity.position)
+        let thirdAnchor = AnchorEntity(world: .init(x: focusEntity.position.x - 0.2, y: focusEntity.position.y + 2.27, z: focusEntity.position.z + 0.9))
         thirdAnchor.addChild(leftRingEntity)
         
         // MIDDLE RING ENTITY
-        let middleRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.5, height: 0.02, depth: 0.02),
+        let middleRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.43, height: 0.02, depth: 0.02),
                                            materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-//        middleRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
-        middleRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.5, height: 0.02, depth: 0.02)])
+        
+        middleRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.43, height: 0.02, depth: 0.02)])
         middleRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
-        let fourthAnchor = AnchorEntity(world: focusEntity.position)
+        let fourthAnchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.27, z: focusEntity.position.z + 1.15))
         fourthAnchor.addChild(middleRingEntity)
         
         // RIGHT RING ENTITY
         let rightRingEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.02, height: 0.02, depth: 0.5),
                                           materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-//        rightRingEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
+        
         rightRingEntity.collision = CollisionComponent(shapes: [.generateBox(width: 0.02, height: 0.02, depth: 0.5)])
         rightRingEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
-        let fifthAnchor = AnchorEntity(world: focusEntity.position)
+        let fifthAnchor = AnchorEntity(world: .init(x: focusEntity.position.x + 0.2, y: focusEntity.position.y + 2.27, z: focusEntity.position.z + 0.9))
         fifthAnchor.addChild(rightRingEntity)
         
         // BACK HOOP ENTITY
-        let backHoopEntity = ModelEntity(mesh: MeshResource.generateBox(width: 1.8, height: 1.5, depth: 0.02),
+        let backHoopEntity = ModelEntity(mesh: MeshResource.generateBox(width: 1.1, height: 0.73, depth: 0.02),
                                          materials: [SimpleMaterial(color: UIColor.clear, isMetallic: false)])
-//        backHoopEntity.scale = SIMD3<Float>(x: 0.05, y: 0.05, z: 0.05)
-        backHoopEntity.collision = CollisionComponent(shapes: [.generateBox(width: 1.8, height: 1.5, depth: 0.02)])
+        
+        backHoopEntity.collision = CollisionComponent(shapes: [.generateBox(width: 1.1, height: 0.73, depth: 0.02)])
         backHoopEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
-        let sixthAnchor = AnchorEntity(world: focusEntity.position)
+        let sixthAnchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.45, z: focusEntity.position.z + 0.6))
         sixthAnchor.addChild(backHoopEntity)
         
         scene.addAnchor(anchor)
@@ -237,14 +252,14 @@ class CustomARView: ARView {
         
         focusEntity.destroy()
     }
-
+    
     func shoot() {
         guard let frame = session.currentFrame else { return }
         let cameraTransform = frame.camera.transform
         
         let sphere = MeshResource.generateSphere(radius: 0.15)
         let material = SimpleMaterial(color: UIColor(.orange), isMetallic: false)
-        let entity = ModelEntity(mesh: sphere, materials: [material])
+        var entity = ModelEntity(mesh: sphere, materials: [material])
         
         entity.collision = CollisionComponent(shapes: [.generateSphere(radius: 0.15)])
         entity.physicsBody = PhysicsBodyComponent(massProperties: PhysicsMassProperties(mass: 0.65), material: .generate(friction: 0.4, restitution: 0.7), mode: .dynamic)
@@ -254,8 +269,8 @@ class CustomARView: ARView {
         anchor.addChild(entity)
         self.scene.addAnchor(anchor)
         
-        let impulseMagnitude: Float = -5.2
-        let impulseVector = SIMD3<Float>(-3.7, 1, impulseMagnitude)
+        let impulseMagnitude: Float = -3.9
+        let impulseVector = SIMD3<Float>(-2.77, 0.75, impulseMagnitude)
         entity.applyLinearImpulse(impulseVector, relativeTo: entity.parent)
     }
     
@@ -312,9 +327,34 @@ class ActionManager {
 
 class BasketballManager: ObservableObject {
     static let shared = BasketballManager()
-    @Published var totalScore: Int = 0
+    @Published var totalScore: Int = 0 {
+        didSet {
+            if totalScore > highScore {
+                highScore = totalScore
+                saveHighScore()
+            }
+        }
+    }
+    @Published var highScore: Int = 0
     
-    private init() { }
+    private init() {
+        loadHighScore()
+    }
+    
+    func saveHighScore() {
+        UserDefaults.standard.set(highScore, forKey: "highScore")
+    }
+    
+    func loadHighScore() {
+        highScore = UserDefaults.standard.integer(forKey: "highScore")
+    }
+    
+    func updateHighScore() {
+        if totalScore > highScore {
+            highScore = totalScore
+            saveHighScore()
+        }
+    }
 }
 
 #Preview {

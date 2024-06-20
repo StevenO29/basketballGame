@@ -15,6 +15,7 @@ struct mainMenu: View {
     @StateObject private var game = gameCenter()
     @State private var showSoloAlert = false
     @State private var showMultiplayerAlert = false
+    @State private var showLeaderboardAlert = false
     @State private var navigateToContentView = false
     @State private var navigateToMultiplayer = false
     var viewController: UIViewController?
@@ -106,13 +107,20 @@ struct mainMenu: View {
                             // Aksi untuk tombol Leader Board
                         }) {
                             Text("LeaderBoard")
-                                .foregroundColor(.whiteColor)
-                                .padding()
-                                .frame(maxWidth: 290)
-                                .background(Color.redColor)
-                                .cornerRadius(10)
-                                .padding(.horizontal)
-                                .font(.custom("RichuMastRegular", size: 30))
+                        }
+                        .foregroundColor(.whiteColor)
+                        .padding()
+                        .frame(maxWidth: 290)
+                        .background(Color.redColor)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        .font(.custom("RichuMastRegular", size: 30))
+                        .alert(isPresented: $showLeaderboardAlert) {
+                            Alert(
+                                title: Text("Important"),
+                                message: Text("Leaderboard is still unavailable"),
+                                dismissButton: .default(Text("OK"))
+                            )
                         }
                     }
                     .offset(y: -125)

@@ -60,6 +60,7 @@ struct multiplayerView: View {
         }
         .onAppear {
             game.choosePlayer()
+            GKAccessPoint.shared.isActive = false
         }
     }
     
