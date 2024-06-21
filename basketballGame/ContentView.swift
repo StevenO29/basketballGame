@@ -15,7 +15,7 @@ struct ContentView : View {
     @State private var isModelPlaced: Bool = false
     @State private var gameStatus = false
     @State private var backToMainMenu = false
-    @State var timer: Int = 10
+    @State var timer: Int = 60
     @State var isStart = false
     @State var cancellable: AnyCancellable? = nil
     
