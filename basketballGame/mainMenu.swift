@@ -22,7 +22,7 @@ struct mainMenu: View {
     
     var body: some View {
         if horizontalSizeClass == .compact {
-            NavigationView {
+            NavigationStack {
                 content
             }
         } else {
@@ -105,6 +105,7 @@ struct mainMenu: View {
                         // Tombol ketiga: Leader Board
                         Button(action: {
                             // Aksi untuk tombol Leader Board
+                            game.showLeaderboard()
                         }) {
                             Text("LeaderBoard")
                         }

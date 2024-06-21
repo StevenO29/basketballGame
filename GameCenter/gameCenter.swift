@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-The main class that implements the logic for a simple real-time game.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ The main class that implements the logic for a simple real-time game.
+ */
 
 import Foundation
 import GameKit
@@ -92,7 +92,7 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
                     print("Error: \(error.localizedDescription).")
                 }
             }
-
+            
             // Register for real-time invitations from other players.
             GKLocalPlayer.local.register(self)
             
@@ -124,7 +124,7 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
             print("Error: \(error.localizedDescription).")
             return
         }
-
+        
         // Stop automatch.
         GKMatchmaker.shared().finishMatchmaking(for: match)
         automatch = false
@@ -154,11 +154,23 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     /// - Tag:saveScore
     func saveScore() {
         GKLeaderboard.submitScore(myScore, context: 0, player: GKLocalPlayer.local,
-            leaderboardIDs: ["123"]) { error in
+                                  leaderboardIDs: ["123"]) { error in
             if let error {
                 print("Error: \(error.localizedDescription).")
             }
         }
+    }
+    
+    // Tambahkan metode untuk menampilkan leaderboard
+    func showLeaderboard() {
+        guard GKLocalPlayer.local.isAuthenticated else {
+            print("Player not authenticated")
+            return
+        }
+        
+        let viewController = GKGameCenterViewController(leaderboardID: "ADA.basketballGame.highScore", playerScope: .global, timeScope: .allTime)
+        viewController.gameCenterDelegate = self
+        rootViewController?.present(viewController, animated: true, completion: nil)
     }
     
     /// Resets a match after players reach an outcome or cancel the game.
@@ -189,28 +201,28 @@ class gameCenter: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         GKAchievement.loadAchievements(completionHandler: { (achievements: [GKAchievement]?, error: Error?) in
             let achievementID = "1234"
             var achievement: GKAchievement? = nil
-
+            
             // Find an existing achievement.
             achievement = achievements?.first(where: { $0.identifier == achievementID })
-
+            
             // Otherwise, create a new achievement.
             if achievement == nil {
                 achievement = GKAchievement(identifier: achievementID)
             }
-
+            
             // Create an array containing the achievement.
             let achievementsToReport: [GKAchievement] = [achievement!]
-
+            
             // Set the progress for the achievement.
             achievement?.percentComplete = achievement!.percentComplete + 10.0
-
+            
             // Report the progress to Game Center.
             GKAchievement.report(achievementsToReport, withCompletionHandler: {(error: Error?) in
                 if let error {
                     print("Error: \(error.localizedDescription).")
                 }
             })
-
+            
             if let error {
                 print("Error: \(error.localizedDescription).")
             }

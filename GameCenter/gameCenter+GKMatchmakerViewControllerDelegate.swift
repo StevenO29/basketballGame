@@ -29,6 +29,6 @@ extension gameCenter: GKMatchmakerViewControllerDelegate {
     
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         // Dismiss the view controller.
-        gameCenterViewController.dismiss(animated: true)
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
 }

@@ -50,12 +50,12 @@
 		9535EA792C0048D100B38133 /* mainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMenu.swift; sourceTree = "<group>"; };
 		9535EA7B2C00491000B38133 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = RichuMastRegular.ttf; path = Assets/RichuMastRegular.ttf; sourceTree = SOURCE_ROOT; };
-		B016D4AF2C0EA19D0063611D /* gameCenter+Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+Friends.swift"; sourceTree = "<group>"; };
+		B016D4AF2C0EA19D0063611D /* gameCenter+Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "gameCenter+Friends.swift"; path = "GameCenter/gameCenter+Friends.swift"; sourceTree = SOURCE_ROOT; };
 		B016D4B12C0EA2290063611D /* gameCenter+GKMatchmakerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+GKMatchmakerViewControllerDelegate.swift"; sourceTree = "<group>"; };
-		B016D4B32C0EA2760063611D /* gameCenter+GKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+GKMatchDelegate.swift"; sourceTree = "<group>"; };
-		B016D4B52C0EA6210063611D /* gameCenter+GKLocalPlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gameCenter+GKLocalPlayerListener.swift"; sourceTree = "<group>"; };
+		B016D4B32C0EA2760063611D /* gameCenter+GKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "gameCenter+GKMatchDelegate.swift"; path = "GameCenter/gameCenter+GKMatchDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		B016D4B52C0EA6210063611D /* gameCenter+GKLocalPlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "gameCenter+GKLocalPlayerListener.swift"; path = "GameCenter/gameCenter+GKLocalPlayerListener.swift"; sourceTree = SOURCE_ROOT; };
 		B05CD4F62C05628B004079CD /* multiplayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multiplayerView.swift; sourceTree = "<group>"; };
-		B05CD4F82C0562A5004079CD /* gameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameCenter.swift; sourceTree = "<group>"; };
+		B05CD4F82C0562A5004079CD /* gameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = gameCenter.swift; path = GameCenter/gameCenter.swift; sourceTree = SOURCE_ROOT; };
 		B0EFD41D2C11718E0006213F /* multipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multipeerSession.swift; sourceTree = "<group>"; };
 		B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = basketballGame.entitlements; sourceTree = "<group>"; };
 		B0EFEC712C04252900B27AA0 /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = ring4.usdz; sourceTree = "<group>"; };
@@ -97,6 +97,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B0B204432C2519880095D19C /* GameCenter */ = {
+			isa = PBXGroup;
+			children = (
+				B05CD4F82C0562A5004079CD /* gameCenter.swift */,
+				B016D4B32C0EA2760063611D /* gameCenter+GKMatchDelegate.swift */,
+				B016D4B12C0EA2290063611D /* gameCenter+GKMatchmakerViewControllerDelegate.swift */,
+				B016D4B52C0EA6210063611D /* gameCenter+GKLocalPlayerListener.swift */,
+				B016D4AF2C0EA19D0063611D /* gameCenter+Friends.swift */,
+			);
+			path = GameCenter;
+			sourceTree = "<group>";
+		};
 		B0EFEC6E2C0424F600B27AA0 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +122,7 @@
 		B0EFF1832BF6E62D00DF3902 = {
 			isa = PBXGroup;
 			children = (
+				B0B204432C2519880095D19C /* GameCenter */,
 				B0EFEC6E2C0424F600B27AA0 /* Assets */,
 				B0EFF18E2BF6E62D00DF3902 /* basketballGame */,
 				B0EFF19F2BF6E62E00DF3902 /* basketballGameTests */,
@@ -138,11 +151,6 @@
 				B0EFF1912BF6E62D00DF3902 /* ContentView.swift */,
 				B05CD4F62C05628B004079CD /* multiplayerView.swift */,
 				B0EFD41D2C11718E0006213F /* multipeerSession.swift */,
-				B05CD4F82C0562A5004079CD /* gameCenter.swift */,
-				B016D4B32C0EA2760063611D /* gameCenter+GKMatchDelegate.swift */,
-				B016D4B12C0EA2290063611D /* gameCenter+GKMatchmakerViewControllerDelegate.swift */,
-				B016D4B52C0EA6210063611D /* gameCenter+GKLocalPlayerListener.swift */,
-				B016D4AF2C0EA19D0063611D /* gameCenter+Friends.swift */,
 				B0EFF1932BF6E62E00DF3902 /* Assets.xcassets */,
 				B0EFF1952BF6E62E00DF3902 /* Preview Content */,
 			);
@@ -505,7 +513,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -541,7 +549,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
