@@ -98,13 +98,16 @@ struct ContentView : View {
                 })
             )
         }
-        .background(NavigationLink(destination: mainMenu(), isActive: $backToMainMenu, label: { EmptyView() }))
+        .background(NavigationLink(destination: mainMenu()
+            .navigationBarBackButtonHidden(true)
+                                   , isActive: $backToMainMenu, label: { EmptyView() }))
         .onAppear {
             basketballManager.loadHighScore()
             basketballManager.totalScore = 0
             GKAccessPoint.shared.isActive = false
         }
     }
+    
     
     func startTimer() {
         cancellable = Timer.publish(every: 1, on: .main, in: .common)
@@ -194,7 +197,7 @@ class CustomARView: ARView {
         triggerEntity.name = "triggerEntity"
         
         let anchorPosition = AnchorEntity(world: focusEntity.position)
-        let anchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.25, z: focusEntity.position.z + 0.96))
+        let anchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.15, z: focusEntity.position.z + 0.96))
         anchor.addChild(triggerEntity)
         
         // BASKET HOOP ENTITY
@@ -240,7 +243,7 @@ class CustomARView: ARView {
         backHoopEntity.collision = CollisionComponent(shapes: [.generateBox(width: 1.1, height: 0.73, depth: 0.02)])
         backHoopEntity.physicsBody = PhysicsBodyComponent(massProperties: .default, material: .default, mode: .static)
         
-        let sixthAnchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.45, z: focusEntity.position.z + 0.6))
+        let sixthAnchor = AnchorEntity(world: .init(x: focusEntity.position.x, y: focusEntity.position.y + 2.45, z: focusEntity.position.z + 0.63))
         sixthAnchor.addChild(backHoopEntity)
         
         scene.addAnchor(anchor)
@@ -259,7 +262,8 @@ class CustomARView: ARView {
         
         let sphere = MeshResource.generateSphere(radius: 0.15)
         let material = SimpleMaterial(color: UIColor(.orange), isMetallic: false)
-        var entity = ModelEntity(mesh: sphere, materials: [material])
+        let entity = ModelEntity(mesh: sphere, materials: [material])
+        //        entity = try! ModelEntity.loadModel(named: "try4")
         
         entity.collision = CollisionComponent(shapes: [.generateSphere(radius: 0.15)])
         entity.physicsBody = PhysicsBodyComponent(massProperties: PhysicsMassProperties(mass: 0.65), material: .generate(friction: 0.4, restitution: 0.7), mode: .dynamic)
@@ -269,8 +273,8 @@ class CustomARView: ARView {
         anchor.addChild(entity)
         self.scene.addAnchor(anchor)
         
-        let impulseMagnitude: Float = -3.9
-        let impulseVector = SIMD3<Float>(-2.77, 0.75, impulseMagnitude)
+        let impulseMagnitude: Float = -3.5
+        let impulseVector = SIMD3<Float>(-3, 0.4, impulseMagnitude)
         entity.applyLinearImpulse(impulseVector, relativeTo: entity.parent)
     }
     

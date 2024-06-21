@@ -17,6 +17,7 @@
 		B05CD4F52C0561BB004079CD /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = B05CD4F42C0561BB004079CD /* FocusEntity */; };
 		B05CD4F72C05628B004079CD /* multiplayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05CD4F62C05628B004079CD /* multiplayerView.swift */; };
 		B05CD4F92C0562A5004079CD /* gameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05CD4F82C0562A5004079CD /* gameCenter.swift */; };
+		B0C7346F2C2535AB001085D5 /* try4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0C7346E2C2535AB001085D5 /* try4.usdz */; };
 		B0EFD41E2C11718E0006213F /* multipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFD41D2C11718E0006213F /* multipeerSession.swift */; };
 		B0EFEC722C04252900B27AA0 /* ring4.usdz in Resources */ = {isa = PBXBuildFile; fileRef = B0EFEC712C04252900B27AA0 /* ring4.usdz */; };
 		B0EFF1902BF6E62D00DF3902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFF18F2BF6E62D00DF3902 /* AppDelegate.swift */; };
@@ -56,6 +57,7 @@
 		B016D4B52C0EA6210063611D /* gameCenter+GKLocalPlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "gameCenter+GKLocalPlayerListener.swift"; path = "GameCenter/gameCenter+GKLocalPlayerListener.swift"; sourceTree = SOURCE_ROOT; };
 		B05CD4F62C05628B004079CD /* multiplayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multiplayerView.swift; sourceTree = "<group>"; };
 		B05CD4F82C0562A5004079CD /* gameCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = gameCenter.swift; path = GameCenter/gameCenter.swift; sourceTree = SOURCE_ROOT; };
+		B0C7346E2C2535AB001085D5 /* try4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = try4.usdz; sourceTree = "<group>"; };
 		B0EFD41D2C11718E0006213F /* multipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = multipeerSession.swift; sourceTree = "<group>"; };
 		B0EFEC6B2C041F1800B27AA0 /* basketballGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = basketballGame.entitlements; sourceTree = "<group>"; };
 		B0EFEC712C04252900B27AA0 /* ring4.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = ring4.usdz; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		B0EFEC6E2C0424F600B27AA0 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				B0C7346E2C2535AB001085D5 /* try4.usdz */,
 				B0EFEC712C04252900B27AA0 /* ring4.usdz */,
 				273769502C0968C00050B423 /* basketballfixed.usdz */,
 				95AC191E2C00535C0080D894 /* RichuMastRegular.ttf */,
@@ -297,6 +300,7 @@
 				273769512C0968C00050B423 /* basketballfixed.usdz in Resources */,
 				B0EFF1972BF6E62E00DF3902 /* Preview Assets.xcassets in Resources */,
 				B0EFF1942BF6E62E00DF3902 /* Assets.xcassets in Resources */,
+				B0C7346F2C2535AB001085D5 /* try4.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,7 +517,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -549,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ADA.basketballGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

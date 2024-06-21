@@ -74,7 +74,10 @@ struct mainMenu: View {
                                 })
                             )
                         }
-                        .background(NavigationLink(destination: ContentView(), isActive: $navigateToContentView, label: { EmptyView() }))
+                        .background(NavigationLink(destination: ContentView()
+                            .navigationBarBackButtonHidden(true)
+                                                   ,
+                                                   isActive: $navigateToContentView, label: { EmptyView() }))
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol kedua: Multi Player
@@ -99,7 +102,9 @@ struct mainMenu: View {
                                 })
                             )
                         }
-                        .background(NavigationLink(destination: multiplayerView(), isActive: $navigateToMultiplayer, label: { EmptyView() }))
+                        .background(NavigationLink(destination: multiplayerView()
+                            .navigationBarBackButtonHidden(true)
+                                                   , isActive: $navigateToMultiplayer, label: { EmptyView() }))
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol ketiga: Leader Board
