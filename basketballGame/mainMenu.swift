@@ -82,7 +82,7 @@ struct mainMenu: View {
                         
                         // Tombol kedua: Multi Player
                         Button(action: {
-                            showMultiplayerAlert = true
+                            
                         }) {
                             Text("Multiplayer")
                         }
@@ -95,16 +95,13 @@ struct mainMenu: View {
                         .font(.custom("RichuMastRegular", size: 30))
                         .alert(isPresented: $showMultiplayerAlert) {
                             Alert(
-                                title: Text("Important"),
-                                message: Text("Multiplayer mode is still under development"),
+                                title: Text("Coming Soon"),
+                                message: Text("Please wait for the next update!"),
                                 dismissButton: .default(Text("OK"), action: {
                                     navigateToMultiplayer = true
                                 })
                             )
                         }
-                        .background(NavigationLink(destination: multiplayerView()
-                            .navigationBarBackButtonHidden(true)
-                                                   , isActive: $navigateToMultiplayer, label: { EmptyView() }))
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol ketiga: Leader Board
