@@ -82,7 +82,7 @@ struct mainMenu: View {
                         
                         // Tombol kedua: Multi Player
                         Button(action: {
-                            
+                            showMultiplayerAlert = true
                         }) {
                             Text("Multiplayer")
                         }
