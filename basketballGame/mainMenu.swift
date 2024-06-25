@@ -35,7 +35,7 @@ struct mainMenu: View {
     var content: some View {
         NavigationStack {
             ZStack {
-                Image("Wallpaper3")
+                Image("Wallpaper2")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -49,7 +49,7 @@ struct mainMenu: View {
                     Text("AR 3D Basketball")
                         .font(.custom("RichuMastRegular", size: 45))
                         .foregroundColor(.white)
-                    Spacer().frame(height: 280) // Menambahkan spacer untuk memposisikan konten lainnya di bawah logo
+                    Spacer().frame(height:375) // Menambahkan spacer untuk memposisikan konten lainnya di bawah logo
                     
                     // Tombol pertama: Solo
                     VStack {
@@ -78,30 +78,6 @@ struct mainMenu: View {
                             .navigationBarBackButtonHidden(true)
                                                    ,
                                                    isActive: $navigateToContentView, label: { EmptyView() }))
-                        Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
-                        
-                        // Tombol kedua: Multi Player
-                        Button(action: {
-                            showMultiplayerAlert = true
-                        }) {
-                            Text("Multiplayer")
-                        }
-                        .foregroundColor(.whiteColor)
-                        .padding()
-                        .frame(maxWidth: 290)
-                        .background(Color.redColor)
-                        .cornerRadius(10)
-                        .padding(.horizontal)
-                        .font(.custom("RichuMastRegular", size: 30))
-                        .alert(isPresented: $showMultiplayerAlert) {
-                            Alert(
-                                title: Text("Coming Soon"),
-                                message: Text("Please wait for the next update!"),
-                                dismissButton: .default(Text("OK"), action: {
-                                    navigateToMultiplayer = true
-                                })
-                            )
-                        }
                         Spacer().frame(height: 20) // Spacer untuk memberi jarak antar tombol
                         
                         // Tombol ketiga: Leader Board
